@@ -1,11 +1,12 @@
 import { useState } from "react"
-import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
 
 function Login() {
-    
     const API_URL = import.meta.env.VITE_API_URL;
-    const [form, setForm] = useState({email: "", password: ""});
+    const [form, setForm] = useState({ email: "", password: "" });
     const { login } = useAuth();
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (e) => {
@@ -22,14 +23,14 @@ function Login() {
                 },
                 body: JSON.stringify(form)
             });
-    
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
             login(data.token);
-            window.location.href = "/home";
+            navigate("/home");
         } catch (error) {
             console.error("Error en el login:", error);
         }
@@ -38,7 +39,7 @@ function Login() {
     const togglePassword = () => {
         setShowPassword(!showPassword);
     }
-    return(
+    return (
         <div className="login-container">
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="logo">
@@ -47,17 +48,18 @@ function Login() {
                 </div>
                 <div className="email-wrapper">
                     <label>Correo</label>
-                    <input name="email" type="email" placeholder="Ingrese su correo" onChange={handleChange} />
+                    <input name="email" type="email" placeholder="Ingrese su correo" 
+                    onChange={handleChange} />
                 </div>
                 <div className="password-wrapper">
                     <label>Contraseña</label>
-                    <input type={showPassword ? "text" : "password"} 
-                        placeholder="Ingrese su contraseña" 
-                        id="password" onChange={handleChange} name="password"/>
-                    <button className="toggle-password" 
+                    <input type={showPassword ? "text" : "password"}
+                        placeholder="Ingrese su contraseña"
+                        id="password" onChange={handleChange} name="password" />
+                    <button className="toggle-password"
                         type="button"
                         onClick={togglePassword}>
-                        {showPassword ? '👁️' :  '👁️‍🗨️'}
+                        {showPassword ? '👁️' : '👁️‍🗨️'}
                     </button>
                 </div>
                 <button className="login-button" type="submit">Iniciar Sesión</button>
@@ -67,7 +69,6 @@ function Login() {
                 </div>
             </form>
         </div>
-        
     )
 }
 

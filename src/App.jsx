@@ -1,11 +1,12 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom'
-import { AuthProvider, useAuth } from './context/AuthContext'
-import Login from './pages/Login'
-import Home from './pages/Home'
-import Usuarios from './pages/Usuarios'
-import Equipos from './pages/Equipos'
-import DashboardLayout from './components/DashboardLayout'
+import Login from './pages/Login.jsx'
+import Home from './pages/Home.jsx'
+import Usuarios from './pages/Usuarios.jsx'
+import Equipos from './pages/Equipos.jsx'
+import DashboardLayout from './components/DashboardLayout.jsx'
+import { useAuth } from './context/useAuth.js'
+import { AuthProvider } from './context/AuthProvider.jsx'
 
 function ProtectedRoute() {
   const { token } = useAuth();
