@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
+    
     const API_URL = import.meta.env.VITE_API_URL;
     const [form, setForm] = useState({email: "", password: ""});
     const { login } = useAuth();
@@ -25,10 +26,10 @@ function Login() {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-    
+
             const data = await response.json();
             login(data.token);
-            
+            window.location.href = "/home";
         } catch (error) {
             console.error("Error en el login:", error);
         }
