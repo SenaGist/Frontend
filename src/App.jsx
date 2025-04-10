@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-
 import Login from './pages/Login.jsx'
 import Home from './pages/Home.jsx'
 import Usuarios from './pages/Usuarios.jsx'
-import Equipos from './pages/Equipos.jsx'
 import DashboardLayout from './components/DashboardLayout.jsx'
 import { useAuth } from './context/useAuth.js'
 import { AuthProvider } from './context/AuthProvider.jsx'
+import Mantenimentos from './pages/Mantenimientos.jsx'
 
 function ProtectedRoute() {
   const { token } = useAuth();
@@ -31,7 +31,7 @@ function App() {
             <Route element={<DashboardLayout />}>
               <Route path="/home" element={<Home />} />
               <Route path="/usuarios" element={<Usuarios />} />
-              <Route path="/equipos" element={<Equipos />} />
+              <Route path="/mantenimientos" element={<Mantenimentos />} />
               <Route path="*" element={<Navigate to="/home" />} />
             </Route>
           </Route>

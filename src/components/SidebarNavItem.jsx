@@ -1,4 +1,5 @@
 import { FaHome, FaUsers, FaCogs, FaLaptop } from 'react-icons/fa';
+import { GrVmMaintenance } from "react-icons/gr";
 import { useAuth } from '../context/useAuth';
 import { Link, NavLink } from 'react-router-dom';
 
@@ -8,13 +9,13 @@ export const SidebarNavItem = () => {
     const navItemsAdmin = [
         { icon: FaHome, label: 'Inicio', path: '/' },
         { icon: FaUsers, label: 'Usuarios', path: '/usuarios' },
-        { icon: FaLaptop, label: 'Equipos', path: '/equipos' },
+        { icon: GrVmMaintenance, label: 'Mantenimientos', path: '/mantenimientos' },
         { icon: FaCogs, label: 'Configuración', path: '/configuracion' },
     ];
 
     const navItemsTech = [
         { icon: FaHome, label: 'Inicio', path: '/' },
-        { icon: FaLaptop, label: 'Equipos', path: '/equipos' },
+        { icon: GrVmMaintenance, label: 'Mantenimientos', path: '/mantenimientos' },
         { icon: FaCogs, label: 'Configuración', path: '/configuracion' },
     ];
 
@@ -25,12 +26,11 @@ export const SidebarNavItem = () => {
             {navItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                    <Link to={item.path}>
-                    <li key={item.path}><Icon/>
-                        {item.label}
-                    </li>
+                    <Link to={item.path} key={item.path}>
+                        <li key={item.path}><Icon />
+                            {item.label}
+                        </li>
                     </Link>
-                    
                 )
             })}
         </>

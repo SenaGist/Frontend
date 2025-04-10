@@ -29,7 +29,7 @@ function Login() {
             }
 
             const data = await response.json();
-            login(data.token, data.role);
+            login(data.token, data.role, data.id);
             navigate("/home");
         } catch (error) {
             console.error("Error en el login:", error);

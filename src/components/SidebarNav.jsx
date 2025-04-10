@@ -1,5 +1,3 @@
-
-
 import { SidebarNavItem } from './SidebarNavItem';
 export const SidebarNav = () => {
     return(

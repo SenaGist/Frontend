@@ -9,7 +9,7 @@ function Topbar() {
   const titles = {
     "/home": "Panel Principal",
     "/usuarios": "Gestión de Usuarios",
-    "/equipos": "Gestión de Equipos",
+    "/mantenimientos": "Mantenimentos",
     "/configuracion": "Configuración",
   };
 
