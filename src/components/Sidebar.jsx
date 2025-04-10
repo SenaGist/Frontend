@@ -6,7 +6,7 @@ function Sidebar() {
       <h2>SENAGIST</h2>
       <nav>
         <ul>
-          <li><Link to="/">Inicio</Link></li>
+          <li><Link to="/home">Inicio</Link></li>
           <li><Link to="/usuarios">Usuarios</Link></li>
           <li><Link to="/equipos">Equipos</Link></li>
           <li><Link to="/configuracion">Configuración</Link></li>

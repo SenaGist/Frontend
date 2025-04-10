@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
+import { Outlet } from 'react-router-dom';
 import './DashboardLayout.css';
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -12,13 +13,16 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <div className="dashboard-container">
+      {/* Sidebar (ahora vertical en móvil) */}
       <aside className={`sidebar ${sidebarOpen ? 'active' : ''}`}>
-        <Sidebar />
+        <Sidebar onItemClick={() => setSidebarOpen(false)} />
       </aside>
 
-      <div className={`main-content ${sidebarOpen ? 'shifted' : ''}`}>
+      <div className={`main-content`}>
         <Topbar toggleSidebar={toggleSidebar} />
-        <div className="content-wrapper">{children}</div>
+        <div className="content-wrapper">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

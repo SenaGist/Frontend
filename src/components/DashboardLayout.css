@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +9,6 @@ html, body {
   width: 100%;
   font-family: sans-serif;
 }
-
 
 .dashboard-container {
   display: flex;
@@ -26,17 +24,16 @@ html, body {
   transition: transform 0.3s ease-in-out;
 }
 
-
 .sidebar {
   width: 250px;
-  background-color: #00AF00; /* Verde SENAGIST */
+  background-color: #00AF00;
   color: white;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidebar h2 {
@@ -72,7 +69,6 @@ html, body {
   padding: 0;
 }
 
-
 .topbar {
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -80,10 +76,25 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  z-index: 1100;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: bold;
+  color: #00AF00;
 }
 
 .title {
   flex: 1;
+  text-align: center;
   font-size: 18px;
   font-weight: 600;
   color: #333;
@@ -92,7 +103,6 @@ html, body {
 .profile-info {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
 .logout-button {
@@ -103,16 +113,14 @@ html, body {
   text-decoration: underline;
 }
 
-
 .menu-button {
   background: none;
   border: none;
   font-size: 24px;
   cursor: pointer;
   color: #333;
-  display: none; 
+  display: none;
 }
-
 
 @media (max-width: 768px) {
   .dashboard-container {
@@ -120,56 +128,33 @@ html, body {
   }
 
   .sidebar {
-    position: fixed;
+    position: absolute;
+    top: 80px; 
     left: 0;
-    top: 0;
-    height: 100vh;
-    transform: translateX(-100%);
+    width: 100%;
+    height: auto;
+    transform: translateY(-110%);
+    background-color: #00AF00;
     z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    padding: 15px 20px;
   }
 
   .sidebar.active {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 
-  .main-content.shifted {
-    transform: translateX(250px); 
+  .sidebar ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .menu-button {
     display: block;
-    z-index: 1100;
-    position: relative;
-  }
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    transform: translateX(-100%);
-    z-index: 1000;
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .sidebar.active {
-    transform: translateX(0);
   }
 
   .main-content {
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .main-content.shifted {
-    transform: translateX(250px); 
-  }
-
-  .menu-button {
-    display: block;
-    z-index: 1100;
-    position: relative;
-    transition: transform 0.3s ease-in-out;
+    transform: none !important;
   }
 }
