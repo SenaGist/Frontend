@@ -1,17 +1,34 @@
+import React from "react";
+import { useLocation } from "react-router-dom";
 import { useSidebar } from "../context/useSidebar";
 
 function Topbar() {
-  const {toggleSidebar} = useSidebar();
-    return (
-      <header className="topbar">
-        <button className="menu-button" onClick={toggleSidebar}>☰</button>
-        <p className="title">Panel de Control</p>
-        <div className="profile-info">
-          <span>Perfil del Usuario</span>
-        </div>
-      </header>
-    );
-  }
-  
-  export default Topbar;
-  
+  const location = useLocation();
+  const { toggleSidebar } = useSidebar();
+
+  const titles = {
+    "/home": "Panel Principal",
+    "/usuarios": "Gestión de Usuarios",
+    "/equipos": "Gestión de Equipos",
+    "/configuracion": "Configuración",
+  };
+
+  const pageTitle = titles[location.pathname] || "Panel de Control";
+
+  return (
+    <header className="topbar">
+      <div className="topbar-left">
+        <button className="menu-button" onClick={toggleSidebar}>
+          ☰
+        </button>
+        <h1 className="brand">SENAGIST</h1>
+      </div>
+
+      <p className="title">{pageTitle}</p>
+
+      <div className="profile-info"></div>
+    </header>
+  );
+}
+
+export default Topbar;

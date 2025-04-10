@@ -25,7 +25,12 @@ export const SidebarNavItem = () => {
             {navItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                    <li key={item.path}><Icon/><Link to={item.path}/>{item.label}</li>
+                    <Link to={item.path}>
+                    <li key={item.path}><Icon/>
+                        {item.label}
+                    </li>
+                    </Link>
+                    
                 )
             })}
         </>
