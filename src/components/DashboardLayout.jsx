@@ -7,13 +7,13 @@ const DashboardLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
-    setSidebarOpen((prev) => !prev);
+    setSidebarOpen(!sidebarOpen);
   };
 
   return (
     <div className="dashboard-container">
       <aside className={`sidebar ${sidebarOpen ? 'active' : ''}`}>
-        <Sidebar />
+        <Sidebar toggleSidebar={toggleSidebar}/>
       </aside>
 
       <div className={`main-content ${sidebarOpen ? 'shifted' : ''}`}>
