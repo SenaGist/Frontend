@@ -1,4 +1,7 @@
-function Topbar({ toggleSidebar }) {
+import { useSidebar } from "../context/useSidebar";
+
+function Topbar() {
+  const {toggleSidebar} = useSidebar();
     return (
       <header className="topbar">
         <button className="menu-button" onClick={toggleSidebar}>☰</button>

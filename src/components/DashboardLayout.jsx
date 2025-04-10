@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import Topbar from './Topbar';
+import React from 'react';
+import Sidebar from './Sidebar.jsx';
+import Topbar from './Topbar.jsx';
 import './DashboardLayout.css';
+import { SidebarProvider } from '../context/SidebarProvider.jsx';
+import { useSidebar } from '../context/useSidebar.js';
 
-const DashboardLayout = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
+const DashboardContent = ({children}) => {
+  const { sidebarOpen } = useSidebar();
   return (
     <div className="dashboard-container">
       <aside className={`sidebar ${sidebarOpen ? 'active' : ''}`}>
-        <Sidebar toggleSidebar={toggleSidebar}/>
+        <Sidebar />
       </aside>
 
       <div className={`main-content ${sidebarOpen ? 'shifted' : ''}`}>
-        <Topbar toggleSidebar={toggleSidebar} />
+        <Topbar />
         <div className="content-wrapper">{children}</div>
       </div>
     </div>
-  );
-};
+  )
+}
+
+const DashboardLayout = () => (
+  <SidebarProvider>
+    <DashboardContent></DashboardContent>
+  </SidebarProvider>
+)
 
 export default DashboardLayout;
