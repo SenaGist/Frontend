@@ -1,0 +1,147 @@
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.maintenance-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.maintenance-table th,
+.maintenance-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.maintenance-table th {
+    background-color: #f2f2f2;
+}
+
+.maintenance-table button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.maintenance-table button:hover {
+    background-color: #0056b3;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
+
+.create-button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.create-button {
+    display: flex;
+    border-radius: 5px;
+    border: 1px solid #00AF00;
+    background-color: #00AF00;
+    color: white;
+    font-weight: 600;
+    width: 150px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-button:hover {
+    background-color: #04cf04;
+    transition: .3s all;
+    cursor: pointer;
+}
+
+#favDialog {
+    width: 600px;
+    height: auto;
+    align-self: center;
+    justify-self: center;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 15px;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 5px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+fieldset .field-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+menu {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.favDialog::backdrop {
+    background: linear-gradient(#000d, #000a);
+}
+
+@media (max-width: 768px) {
+    #favDialog {
+        width: 100%;
+        padding: 15px;
+        border-radius: 0;
+        height: 100vh;
+        box-sizing: border-box;
+    }
+
+    fieldset .field-group {
+        grid-template-columns: 1fr;
+    }
+
+    menu {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .create-button-wrapper {
+        align-items: center;
+        justify-content: center;
+        margin-top: 5px;
+    }
+}

@@ -1,33 +1,40 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/useAuth";
+import { useEffect, useState, useRef } from "react";
+import { useAuth } from "../../context/useAuth";
 import "./Maintenances.css";
+import { MaintenanceForm } from "./MaintenanceForm";
+import { fetchUserMaintenances } from "../../services/maintenanceService";
 
 function Mantenimientos() {
   const API_URL = import.meta.env.VITE_API_URL;
   const { userId } = useAuth();
+  const dialogRef = useRef(null);
   const [maintenances, setMaintenances] = useState([]);
 
-  useEffect(() => {
-    async function getMaintenances() {
-      try {
-        const response = await fetch(`${API_URL}/maintenances/user/${userId}`);
-        if (!response.ok) {
-          console.error("Error HTTP:", response.status);
-          return;
-        }
-        const data = await response.json();
-        setMaintenances(data);
-      } catch (error) {
-        console.error("Error de red:", error);
-      }
+  function handleModal() {
+    if (!dialogRef.current) return;
+    const dialog = dialogRef.current;
+    if (!dialog.open) {
+      dialogRef.current.showModal();
+    } else {
+      dialogRef.current.close();
     }
+  }
 
-    getMaintenances();
+  useEffect(() => {
+    fetchUserMaintenances(API_URL, userId)
+      .then(setMaintenances)
+      .catch(console.error);
   }, [API_URL, userId]);
 
   return (
     <div className="container">
+      <MaintenanceForm handleModal={handleModal} dialogRef={dialogRef} userId={userId} />
       <h1 className="title">Mantenimientos Realizados</h1>
+      <div className="create-button-wrapper">
+        <button className="create-button" onClick={handleModal}>
+          Crear Mantenimiento
+        </button>
+      </div>
       <div className="table-responsive">
         <table className="maintenance-table">
           <thead>

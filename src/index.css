@@ -14,12 +14,6 @@ body, html {
   align-items: center;
 }
 
-input, button {
-  outline: none;
-  border: none;
-  font-size: 1rem;
-}
-
 a {
   text-decoration: none;
   color: #333;
