@@ -3,8 +3,9 @@ import { useAuth } from "../../context/useAuth";
 import "./Maintenances.css";
 import { MaintenanceForm } from "./MaintenanceForm";
 import { fetchUserMaintenances } from "../../services/maintenanceService";
+import { TableFetching } from "../../components/TableFetching";
 
-function Mantenimientos() {
+function Maintenances() {
   const API_URL = import.meta.env.VITE_API_URL;
   const { userId } = useAuth();
   const dialogRef = useRef(null);
@@ -35,43 +36,24 @@ function Mantenimientos() {
           Crear Mantenimiento
         </button>
       </div>
-      <div className="table-responsive">
-        <table className="maintenance-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Fecha</th>
-              <th>Tipo</th>
-              <th>Descripción</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {maintenances.map((m) => (
-              <tr key={m.id}>
-                <td>{m.id}</td>
-                <td>{new Date(m.start_date).toLocaleDateString()}</td>
-                <td>{m.type}</td>
-                <td>{m.description}</td>
-                <td>
-                  <button onClick={() => alert(JSON.stringify(m, null, 2))}>
-                    Ver más
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {maintenances.length === 0 && (
-              <tr>
-                <td colSpan="5" className="no-data">
-                  No hay mantenimientos registrados.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <TableFetching
+        headers={["ID", "Fecha", "Tipo", "Descripción", "Acciones"]}
+        data={maintenances}
+        rowRenderer={(m) => (
+          <>
+            <td>{m.id}</td>
+            <td>{new Date(m.start_date).toLocaleDateString()}</td>
+            <td>{m.type}</td>
+            <td>{m.description}</td>
+            <td>
+              <button>Ver más</button>
+            </td>
+          </>
+        )}
+        emptyMessage="No hay mantenimientos registrados."
+      />
     </div>
   );
 }
 
-export default Mantenimientos;
+export default Maintenances;

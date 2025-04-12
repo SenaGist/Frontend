@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from './Sidebar.jsx';
+import Sidebar from './sidebar/Sidebar.jsx';
 import Topbar from './Topbar.jsx';
 import './DashboardLayout.css';
 import { SidebarProvider } from '../context/SidebarProvider.jsx';

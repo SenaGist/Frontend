@@ -1,4 +1,4 @@
-import { useAuth } from '../context/useAuth';
+import { useAuth } from '../../context/useAuth';
 export const SidebarFooter = () => {
     const {logout} = useAuth();
     function handleLogout() {

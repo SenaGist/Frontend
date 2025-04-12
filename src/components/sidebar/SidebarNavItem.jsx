@@ -1,6 +1,6 @@
 import { FaHome, FaUsers, FaCogs, FaLaptop } from 'react-icons/fa';
 import { GrVmMaintenance } from "react-icons/gr";
-import { useAuth } from '../context/useAuth';
+import { useAuth } from '../../context/useAuth';
 import { Link, NavLink } from 'react-router-dom';
 
 export const SidebarNavItem = () => {
