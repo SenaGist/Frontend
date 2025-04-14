@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import { Outlet } from 'react-router-dom';
-import './DashboardLayout.css';
+import '../css/DashboardLayout.css';
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
