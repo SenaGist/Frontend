@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { fetchUsers } from "../../services/userService";
 import { TableFetching } from "../../components/TableFetching";
-import "../maintenance/Maintenances.css"
+import "../../styles/Maintenances.css"
 function Users() {
   const [users, setUsers] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;

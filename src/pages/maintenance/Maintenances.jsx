@@ -1,15 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../context/useAuth";
-import "./Maintenances.css";
+import "../../styles/Maintenances.css";
 import { MaintenanceForm } from "./MaintenanceForm";
 import { fetchUserMaintenances } from "../../services/maintenanceService";
 import { TableFetching } from "../../components/TableFetching";
+import { MoreInfo } from "./MoreInfo";
 
 function Maintenances() {
   const API_URL = import.meta.env.VITE_API_URL;
   const { userId } = useAuth();
   const dialogRef = useRef(null);
+  const moreRef = useRef(null);
   const [maintenances, setMaintenances] = useState([]);
+  const [selectedMaintenance, setSelectedMaintenance] = useState(null);
 
   function handleModal() {
     if (!dialogRef.current) return;
@@ -20,6 +23,14 @@ function Maintenances() {
       dialogRef.current.close();
     }
   }
+  function handleModalMore(m) {
+    setSelectedMaintenance(m);
+  }
+  useEffect(() => {
+    if (selectedMaintenance && moreRef.current && !moreRef.current.open) {
+      moreRef.current.showModal();
+    }
+  }, [selectedMaintenance]);
 
   useEffect(() => {
     fetchUserMaintenances(API_URL, userId)
@@ -46,12 +57,15 @@ function Maintenances() {
             <td>{m.type}</td>
             <td>{m.description}</td>
             <td>
-              <button>Ver más</button>
+              <button onClick={() => handleModalMore(m)}>Ver más</button>
             </td>
           </>
         )}
         emptyMessage="No hay mantenimientos registrados."
       />
+      {selectedMaintenance && (
+        <MoreInfo data={[selectedMaintenance]} handleModalMore={() => handleModalMore(null)} moreRef={moreRef} />
+      )}
     </div>
   );
 }

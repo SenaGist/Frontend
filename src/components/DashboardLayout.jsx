@@ -1,7 +1,7 @@
 import React from 'react';
 import Sidebar from './sidebar/Sidebar.jsx';
 import Topbar from './Topbar.jsx';
-import './DashboardLayout.css';
+import '../styles/DashboardLayout.css';
 import { SidebarProvider } from '../context/SidebarProvider.jsx';
 import { useSidebar } from '../context/useSidebar.js';
 import { Outlet } from 'react-router-dom';

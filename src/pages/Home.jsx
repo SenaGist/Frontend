@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../components/Home.css';
+import '../styles/Home.css';
 
 const Home = () => {
   const [usuariosCount, setUsuariosCount] = useState(0);

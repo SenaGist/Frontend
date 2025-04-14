@@ -13,8 +13,15 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
+        const data = {};
+
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
         const payload = buildPayload(type, data, userId);
+        console.log("Enviando payload:", payload);
+
         fetchPostMaintenance(payload)
             .then(() => {
                 form.reset();
@@ -22,24 +29,22 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
             })
             .catch(console.error);
     }
-    function buildPayload(type, data, userId) {
-        const common = {
-            asset: {
-                inventory_number: data.inventory_number,
-                location: data.location,
-                brand: data.brand,
-                model: data.model,
-            },
-            assetType: data.asset_type,
-            id_user: parseInt(userId, 10),
-            start_date: data.start_date,
-            end_date: data.end_date,
-            type: data.type,
-            description: data.maintenance_description,
-            spare_parts: data.spare_parts,
-            remarks: data.remarks
-        };
     
+    function buildPayload(type, data, userId) {
+        const formData = new FormData();
+        formData.append("asset.inventory_number", data.inventory_number);
+        formData.append("asset.location", data.location);
+        formData.append("asset.brand", data.brand);
+        formData.append("asset.model", data.model);
+        formData.append("assetType", data.asset_type);
+        formData.append("id_user", userId);
+        formData.append("start_date", data.start_date);
+        formData.append("end_date", data.end_date || "");
+        formData.append("type", data.type);
+        formData.append("description", data.maintenance_description);
+        formData.append("spare_parts", data.spare_parts || "");
+        formData.append("remarks", data.remarks || "");
+
         const assetDetailsByType = {
             refrigeration: {
                 centerId: parseInt(data.centerId, 10),
@@ -64,11 +69,23 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
                 dailyUsageHours: parseFloat(data.dailyUsageHours)
             }
         };
-    
-        return {
-            ...common,
-            assetDetails: assetDetailsByType[type] || {},
-        };
+
+
+        const assetDetails = assetDetailsByType[type] || {};
+        for (const [key, value] of Object.entries(assetDetails)) {
+            if (value !== undefined && value !== null && !isNaN(value)) {
+                formData.append(`assetDetails.${key}`, value);
+            }
+        }
+        if (data.image_1 && data.image_1.size > 0) {
+            formData.append("image_1_file", data.image_1);
+        }
+
+        if (data.image_2 && data.image_2.size > 0) {
+            formData.append("image_2_file", data.image_2);
+        }
+
+        return formData;
     }
 
     return (
@@ -111,7 +128,7 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
                     </div>
                 </fieldset>
 
-                <MaintenanceTypeAsset type={type} dialogRef={dialogRef}/>
+                <MaintenanceTypeAsset type={type} dialogRef={dialogRef} />
 
                 <fieldset>
                     <legend>Información del Mantenimiento</legend>
@@ -154,6 +171,11 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
                         Observaciones:
                         <textarea name="remarks">
                         </textarea>
+                    </label>
+                    <label>
+                        Imagenes:
+                        <input type="file" name="image_1" accept="image/*" />
+                        <input type="file" name="image_2" accept="image/*" />
                     </label>
                 </fieldset>
 
