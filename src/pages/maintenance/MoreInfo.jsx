@@ -21,7 +21,27 @@ export const MoreInfo = ({ data, handleModalMore, moreRef }) => {
                         <p><strong>Descripción:</strong> {item.description}</p>
                         <p><strong>Repuestos:</strong> {item.spare_parts}</p>
                         <p><strong>Observaciones:</strong> {item.remarks}</p>
-                        <p><strong>Evidencias: </strong> {item.image_1}</p>
+                        {item.image_1 && (
+                            <div className="image-container">
+                                <strong>Evidencia 1:</strong>
+                                <img 
+                                    src={item.image_1} 
+                                    alt={`Evidencia 1 del activo ${item.asset?.inventory_number}`}
+                                    className="maintenance-image"
+                                />
+                            </div>
+                        )}
+                        
+                        {item.image_2 && (
+                            <div className="image-container">
+                                <strong>Evidencia 2:</strong>
+                                <img 
+                                    src={item.image_2} 
+                                    alt={`Evidencia 2 del activo ${item.asset?.inventory_number}`}
+                                    className="maintenance-image"
+                                />
+                            </div>
+                        )}
                         {item.assetDetails && (
                             <div className="details">
                                 <h4>Detalles del Activo:</h4>
