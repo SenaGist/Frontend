@@ -6,6 +6,15 @@ export async function fetchUserMaintenances(apiUrl, userId) {
 export async function fetchPostMaintenance(formData) {
     try {
         const API_URL = import.meta.env.VITE_API_URL;
+        const jsonData = formData.get('json');
+        if (jsonData) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                console.log("Datos JSON enviados:", JSON.parse(reader.result));
+            };
+            reader.readAsText(jsonData);
+        }
+        
         const response = await fetch(`${API_URL}/maintenances`, {
             method: "POST",
             body: formData

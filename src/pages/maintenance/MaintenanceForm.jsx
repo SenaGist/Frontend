@@ -31,20 +31,24 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
     }
     
     function buildPayload(type, data, userId) {
-        const formData = new FormData();
-        formData.append("asset.inventory_number", data.inventory_number);
-        formData.append("asset.location", data.location);
-        formData.append("asset.brand", data.brand);
-        formData.append("asset.model", data.model);
-        formData.append("assetType", data.asset_type);
-        formData.append("id_user", userId);
-        formData.append("start_date", data.start_date);
-        formData.append("end_date", data.end_date || "");
-        formData.append("type", data.type);
-        formData.append("description", data.maintenance_description);
-        formData.append("spare_parts", data.spare_parts || "");
-        formData.append("remarks", data.remarks || "");
-
+        console.log("Datos del formulario:", data);
+        const payload = {
+            asset: {
+                inventory_number: data.inventory_number,
+                location: data.location,
+                brand: data.brand,
+                model: data.model
+            },
+            assetType: data.asset_type,
+            id_user: userId,
+            start_date: data.start_date,
+            end_date: data.end_date || "",
+            type: data.type,
+            description: data.maintenance_description,
+            spare_parts: data.spare_parts || "",
+            remarks: data.remarks || "",
+            assetDetails: {}
+        };
         const assetDetailsByType = {
             refrigeration: {
                 centerId: parseInt(data.centerId, 10),
@@ -69,22 +73,21 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
                 dailyUsageHours: parseFloat(data.dailyUsageHours)
             }
         };
-
-
-        const assetDetails = assetDetailsByType[type] || {};
-        for (const [key, value] of Object.entries(assetDetails)) {
-            if (value !== undefined && value !== null && !isNaN(value)) {
-                formData.append(`assetDetails.${key}`, value);
-            }
+        payload.assetDetails = assetDetailsByType[type] || {};
+        const formData = new FormData();
+        const jsonBlob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+        formData.append('maintenanceDTO', jsonBlob);
+        
+        if (data.image_1 instanceof File) {
+            formData.append("image_1", data.image_1); 
         }
-        if (data.image_1 && data.image_1.size > 0) {
-            formData.append("image_1_file", data.image_1);
+    
+        if (data.image_2 instanceof File) {
+            formData.append("image_2", data.image_2);
         }
-
-        if (data.image_2 && data.image_2.size > 0) {
-            formData.append("image_2_file", data.image_2);
+        for (let [key, value] of formData.entries()) {
+            console.log('FormData Key:', key, 'Value:', value);
         }
-
         return formData;
     }
 
