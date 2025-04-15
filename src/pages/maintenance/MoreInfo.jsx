@@ -21,22 +21,22 @@ export const MoreInfo = ({ data, handleModalMore, moreRef }) => {
                         <p><strong>Descripción:</strong> {item.description}</p>
                         <p><strong>Repuestos:</strong> {item.spare_parts}</p>
                         <p><strong>Observaciones:</strong> {item.remarks}</p>
-                        {item.image_1 && (
+                        {item.image1Base64 && (
                             <div className="image-container">
                                 <strong>Evidencia 1:</strong>
-                                <img 
-                                    src={item.image_1} 
+                                <img
+                                    src={item.image1Base64}
                                     alt={`Evidencia 1 del activo ${item.asset?.inventory_number}`}
                                     className="maintenance-image"
                                 />
                             </div>
                         )}
-                        
-                        {item.image_2 && (
+
+                        {item.image2Base64 && (
                             <div className="image-container">
                                 <strong>Evidencia 2:</strong>
-                                <img 
-                                    src={item.image_2} 
+                                <img
+                                    src={item.image2Base64}
                                     alt={`Evidencia 2 del activo ${item.asset?.inventory_number}`}
                                     className="maintenance-image"
                                 />
