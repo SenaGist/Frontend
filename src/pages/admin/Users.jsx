@@ -1,11 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { fetchUsers } from "../../services/userService";
 import { TableFetching } from "../../components/TableFetching";
 import "../../styles/Maintenances.css"
+import { UserForm } from "../../components/UserForm";
 function Users() {
   const [users, setUsers] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
+    const dialogRef = useRef(null);
+    function handleModal() {
+      if (!dialogRef.current) return;
+      const dialog = dialogRef.current;
+      if (!dialog.open) {
+        dialogRef.current.showModal();
+      } else {
+        dialogRef.current.close();
+      }
+    }
   useEffect(() => {
     fetchUsers(API_URL)
       .then(setUsers)
@@ -13,8 +24,9 @@ function Users() {
   }, [API_URL]);
   return (
     <div className="container">
+      <UserForm handleModal={handleModal} dialogRef={dialogRef}/>
       <div className="create-button-wrapper">
-        <button className="create-button">
+        <button className="create-button" onClick={handleModal}>
           Crear Usuarios
         </button>
       </div>

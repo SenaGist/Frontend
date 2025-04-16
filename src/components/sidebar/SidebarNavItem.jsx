@@ -8,8 +8,8 @@ export const SidebarNavItem = () => {
 
     const navItemsAdmin = [
         { icon: FaHome, label: 'Inicio', path: '/' },
-        { icon: FaUsers, label: 'Usuarios', path: '/usuarios' },
-        { icon: GrVmMaintenance, label: 'Mantenimientos', path: '/mantenimientos' },
+        { icon: FaUsers, label: 'Usuarios', path: '/admin/usuarios' },
+        { icon: GrVmMaintenance, label: 'Mantenimientos', path: '/admin/mantenimientos' },
         { icon: FaCogs, label: 'Configuración', path: '/configuracion' },
     ];
 

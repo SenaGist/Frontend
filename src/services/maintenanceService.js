@@ -3,6 +3,11 @@ export async function fetchUserMaintenances(apiUrl, userId) {
     if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
     return response.json();
 }
+export async function fetchAllMaintenances(apiUrl) {
+    const response = await fetch(`${apiUrl}/maintenances`);
+    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+    return response.json();
+}
 export async function fetchPostMaintenance(formData) {
     try {
         const API_URL = import.meta.env.VITE_API_URL;

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { fetchPostMaintenance } from "../../services/maintenanceService";
-import { MaintenanceTypeAsset } from "./MaintenanceTypeAsset";
+import { fetchPostMaintenance } from "../services/maintenanceService";
+import { MaintenanceTypeAsset } from "../pages/maintenance/MaintenanceTypeAsset";
 
 export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
     const [type, setType] = useState("");

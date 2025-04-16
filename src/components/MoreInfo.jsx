@@ -1,6 +1,5 @@
 import "../../styles/Modal.css";
 
-
 export const MoreInfo = ({ data, handleModalMore, moreRef }) => {
     return (
         <dialog ref={moreRef} className="modal-fade-in">

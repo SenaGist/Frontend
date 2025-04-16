@@ -3,3 +3,6 @@ export async function fetchUsers(apiUrl) {
     if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
     return response.json();
 }
+// export async function fetchPostUser(formData) {
+    
+// }

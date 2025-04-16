@@ -7,6 +7,7 @@ import DashboardLayout from './components/DashboardLayout.jsx'
 import { useAuth } from './context/useAuth.js'
 import { AuthProvider } from './context/AuthProvider.jsx'
 import Maintenances from './pages/maintenance/Maintenances.jsx'
+import AdminMaintenances from './pages/admin/AdminMaintenances.jsx'
 
 function ProtectedRoute() {
   const { token } = useAuth();
@@ -30,8 +31,9 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               <Route path="/home" element={<Home />} />
-              <Route path="/usuarios" element={<Users />} />
+              <Route path="/admin/usuarios" element={<Users />} />
               <Route path="/mantenimientos" element={<Maintenances />} />
+              <Route path='/admin/mantenimientos' element={<AdminMaintenances/>}/>
               <Route path="*" element={<Navigate to="/home" />} />
             </Route>
           </Route>
