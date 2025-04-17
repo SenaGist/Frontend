@@ -29,7 +29,7 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
             })
             .catch(console.error);
     }
-    
+
     function buildPayload(type, data, userId) {
         console.log("Datos del formulario:", data);
         const payload = {
@@ -77,11 +77,11 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
         const formData = new FormData();
         const jsonBlob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
         formData.append('maintenanceDTO', jsonBlob);
-        
+
         if (data.image_1 instanceof File) {
-            formData.append("image_1", data.image_1); 
+            formData.append("image_1", data.image_1);
         }
-    
+
         if (data.image_2 instanceof File) {
             formData.append("image_2", data.image_2);
         }

@@ -1,11 +1,14 @@
 import { useState } from "react";
 import "../styles/CreateUserModal.css";
+import { fetchPostUser } from "../services/userService";
 
-export const UserForm = ({ handleModal, dialogRef }) => {
+export const UserForm = ({ handleModal, dialogRef, setUsers }) => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const [formData, setFormData] = useState({
-        nombre: '',
-        correo: '',
-        rol: ''
+        name: '',
+        email: '',
+        password: "",
+        role: ''
     });
 
     const handleChange = (e) => {
@@ -15,7 +18,12 @@ export const UserForm = ({ handleModal, dialogRef }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Aquí iría la lógica para guardar el usuario
+        fetchPostUser(API_URL, formData)
+        .then((newUser) => {
+            setUsers((prevState) => [...prevState, newUser.data])
+            handleModal();
+        })
+        .catch(console.error)
     };
 
     return (
@@ -24,23 +32,31 @@ export const UserForm = ({ handleModal, dialogRef }) => {
                 <h3>Registrar Nuevo Usuario</h3>
                 <input
                     type="text"
-                    name="nombre"
+                    name="name"
                     placeholder="Nombre"
-                    value={formData.nombre}
+                    value={formData.name}
                     onChange={handleChange}
                     required
                 />
                 <input
                     type="email"
-                    name="correo"
+                    name="email"
                     placeholder="Correo"
-                    value={formData.correo}
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Contraseña"
+                    value={formData.password}
                     onChange={handleChange}
                     required
                 />
                 <select
-                    name="rol"
-                    value={formData.rol}
+                    name="role"
+                    value={formData.role}
                     onChange={handleChange}
                     required
                 >

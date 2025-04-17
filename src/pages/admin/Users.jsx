@@ -24,7 +24,7 @@ function Users() {
   }, [API_URL]);
   return (
     <div className="container">
-      <UserForm handleModal={handleModal} dialogRef={dialogRef}/>
+      <UserForm handleModal={handleModal} dialogRef={dialogRef} setUsers={setUsers}/>
       <div className="create-button-wrapper">
         <button className="create-button" onClick={handleModal}>
           Crear Usuarios

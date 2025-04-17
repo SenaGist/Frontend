@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { fetchAllMaintenances } from "../../services/maintenanceService";
 import { TableFetching } from "../../components/TableFetching";
 import { MoreInfo } from "../../components/MoreInfo";
-import { UserForm } from "../../components/UserForm";
 
 function AdminMaintenances() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -25,7 +24,6 @@ function AdminMaintenances() {
   return (
     <div className="container">
       <h1 className="title">Todos los Mantenimientos Realizados</h1>
-      
       <TableFetching
         headers={["ID", "Fecha", "Tipo", "Descripción", "Acciones"]}
         data={maintenances}
