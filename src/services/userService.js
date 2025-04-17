@@ -12,3 +12,10 @@ export async function fetchPostUser(apiUrl, formData) {
     if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
     return response.json();
 }
+export async function fetchDeleteUser(apiUrl, userId) {
+    const response = await fetch(`${apiUrl}/users/${userId}`, {
+        method: "DELETE",
+    })
+    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+    return response.json();
+}

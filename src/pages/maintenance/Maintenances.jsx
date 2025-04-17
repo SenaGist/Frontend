@@ -40,7 +40,7 @@ function Maintenances() {
 
   return (
     <div className="container">
-      <MaintenanceForm handleModal={handleModal} dialogRef={dialogRef} userId={userId} />
+      <MaintenanceForm handleModal={handleModal} dialogRef={dialogRef} userId={userId} setMaintenances={setMaintenances} />
       <h1 className="title">Mantenimientos Realizados</h1>
       <div className="create-button-wrapper">
         <button className="create-button" onClick={handleModal}>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { fetchPostMaintenance } from "../services/maintenanceService";
 import { MaintenanceTypeAsset } from "../pages/maintenance/MaintenanceTypeAsset";
 
-export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
+export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenances }) => {
     const [type, setType] = useState("");
     function handleType(e) {
         const select = e.target;
@@ -23,9 +23,12 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId }) => {
         console.log("Enviando payload:", payload);
 
         fetchPostMaintenance(payload)
-            .then(() => {
+            .then((newMaintenance) => {
                 form.reset();
                 handleModal();
+                console.log(newMaintenance);
+                
+                setMaintenances(((prevState) => [...prevState, newMaintenance]))
             })
             .catch(console.error);
     }

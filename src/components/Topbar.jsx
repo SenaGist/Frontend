@@ -9,8 +9,11 @@ function Topbar() {
   const titles = {
     "/home": "Panel Principal",
     "/usuarios": "Gestión de Usuarios",
+    "/admin/usuarios": "Gestión de Usuarios",
     "/mantenimientos": "Mantenimentos",
+    "/admin/mantenimientos": "Mantenimentos",
     "/configuracion": "Configuración",
+    "/admin/configuracion": "Configuración",
   };
 
   const pageTitle = titles[location.pathname] || "Panel de Control";

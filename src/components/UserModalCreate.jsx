@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../styles/CreateUserModal.css";
 import { fetchPostUser } from "../services/userService";
 
-export const UserForm = ({ handleModal, dialogRef, setUsers }) => {
+export const UserModalCreate = ({ handleModal, dialogRef, setUsers }) => {
     const API_URL = import.meta.env.VITE_API_URL;
     const [formData, setFormData] = useState({
         name: '',
@@ -21,7 +21,7 @@ export const UserForm = ({ handleModal, dialogRef, setUsers }) => {
         fetchPostUser(API_URL, formData)
         .then((newUser) => {
             setUsers((prevState) => [...prevState, newUser.data])
-            handleModal();
+            handleModal(dialogRef);
         })
         .catch(console.error)
     };
@@ -66,7 +66,7 @@ export const UserForm = ({ handleModal, dialogRef, setUsers }) => {
                 </select>
                 <div className="modal-buttons">
                     <button type="submit" className="guardar">Guardar</button>
-                    <button type="button" className="cancelar" onClick={handleModal}>Cancelar</button>
+                    <button type="button" className="cancelar" onClick={() => handleModal(dialogRef)}>Cancelar</button>
                 </div>
             </form>
         </dialog>
