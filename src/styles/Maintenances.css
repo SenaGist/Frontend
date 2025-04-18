@@ -135,6 +135,9 @@ menu {
 .actions-btn-delete:hover {
     background-color: rgb(201, 11, 11);
 }
+.btn-more {
+    background-color: #007bff;
+}
 @media (max-width: 768px) {
     #favDialog {
         width: 100%;

@@ -34,7 +34,7 @@ function AdminMaintenances() {
             <td>{m.type}</td>
             <td>{m.description}</td>
             <td>
-              <button onClick={() => handleModalMore(m)}>Ver más</button>
+              <button className= "btn-more"onClick={() => handleModalMore(m)}>Ver más</button>
             </td>
           </>
         )}
