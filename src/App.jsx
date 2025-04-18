@@ -8,6 +8,7 @@ import { useAuth } from './context/useAuth.js'
 import { AuthProvider } from './context/AuthProvider.jsx'
 import Maintenances from './pages/maintenance/Maintenances.jsx'
 import AdminMaintenances from './pages/admin/AdminMaintenances.jsx'
+import { Assets } from './pages/admin/Assets.jsx'
 
 function ProtectedRoute() {
   const { token } = useAuth();
@@ -34,6 +35,7 @@ function App() {
               <Route path="/admin/usuarios" element={<Users />} />
               <Route path="/mantenimientos" element={<Maintenances />} />
               <Route path='/admin/mantenimientos' element={<AdminMaintenances/>}/>
+              <Route path='/admin/equipamentos' element={<Assets/>}/>
               <Route path="*" element={<Navigate to="/home" />} />
             </Route>
           </Route>

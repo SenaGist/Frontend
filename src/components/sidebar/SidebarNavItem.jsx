@@ -1,4 +1,5 @@
-import { FaHome, FaUsers, FaCogs, FaLaptop } from 'react-icons/fa';
+import { FaHome, FaUsers, FaCogs } from 'react-icons/fa';
+import { MdDevices } from 'react-icons/md';
 import { GrVmMaintenance } from "react-icons/gr";
 import { useAuth } from '../../context/useAuth';
 import { Link, NavLink } from 'react-router-dom';
@@ -10,6 +11,7 @@ export const SidebarNavItem = () => {
         { icon: FaHome, label: 'Inicio', path: '/' },
         { icon: FaUsers, label: 'Usuarios', path: '/admin/usuarios' },
         { icon: GrVmMaintenance, label: 'Mantenimientos', path: '/admin/mantenimientos' },
+        { icon: MdDevices, label: 'Equipamentos', path: '/admin/equipamentos' },
         { icon: FaCogs, label: 'Configuración', path: '/configuracion' },
     ];
 

@@ -12,6 +12,7 @@ function Topbar() {
     "/admin/usuarios": "Gestión de Usuarios",
     "/mantenimientos": "Mantenimentos",
     "/admin/mantenimientos": "Mantenimentos",
+    "/admin/equipamentos": "Equipamentos",
     "/configuracion": "Configuración",
     "/admin/configuracion": "Configuración",
   };
