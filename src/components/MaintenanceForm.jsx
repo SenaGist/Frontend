@@ -37,7 +37,7 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
         console.log("Datos del formulario:", data);
         const payload = {
             asset: {
-                inventory_number: data.inventory_number,
+                inventoryNumber: data.inventoryNumber,
                 location: data.location,
                 brand: data.brand,
                 model: data.model
@@ -105,7 +105,7 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
                             Número de Inventario:
                             <input
                                 type="text"
-                                name="inventory_number"
+                                name="inventoryNumber"
                             />
                         </label>
                         <label>

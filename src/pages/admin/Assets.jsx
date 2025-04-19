@@ -29,7 +29,7 @@ export const Assets = () => {
                 rowRenderer={(a) => (
                     <>
                         <td>{a.id}</td>
-                        <td>{a.inventory_number}</td>
+                        <td>{a.inventoryNumber}</td>
                         <td>{a.location}</td>
                         <td>{a.brand}</td>
                         <td>{a.model}</td>
@@ -75,7 +75,6 @@ export const Assets = () => {
                     </div>
                 )}
             </Modal>
-
         </div>
     )
 }
