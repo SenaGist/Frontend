@@ -49,20 +49,23 @@ export const Assets = () => {
             />
             <Modal dialogRef={maintenancesAssetRef} handleModal={handleModal} title="Mantenimientos del equipo">
                 {selectedAsset && (
-                    <div>
-                        <h4>Equipo: {selectedAsset.inventory_number} - {selectedAsset.brand} {selectedAsset.model}</h4>
-                        <p>Ubicación: {selectedAsset.location}</p>
+                    <div className="mantenimiento-contenido">
+                        <div className="mantenimiento-info">
+                            <p><strong>Equipo:</strong> {selectedAsset.inventory_number} - {selectedAsset.brand} {selectedAsset.model}</p>
+                            <p><strong>Ubicación:</strong> {selectedAsset.location}</p>
+                        </div>
                         <hr />
                         {maintenances.length > 0 ? (
-                            <ul className="maintenance-list">
+                            <ul className="mantenimiento-lista">
                                 {maintenances.map((m) => (
-                                    <li key={m.id}>
-                                        <strong>{m.start_date}</strong> - {m.description}
+                                    <li key={m.id} className="mantenimiento-item">
+                                        <p className="mantenimiento-fecha">{new Date(m.start_date).toLocaleString()}</p>
+                                        <p className="mantenimiento-descripcion">{m.description}</p>
                                     </li>
                                 ))}
                             </ul>
                         ) : (
-                            <p>No hay mantenimientos registrados para este equipo.</p>
+                            <p className="mensaje-vacio">No hay mantenimientos registrados para este equipo.</p>
                         )}
                         <div className="modal-buttons">
                             <button className="cancelar" onClick={() => handleModal(maintenancesAssetRef)}>
@@ -72,6 +75,7 @@ export const Assets = () => {
                     </div>
                 )}
             </Modal>
+
         </div>
     )
 }

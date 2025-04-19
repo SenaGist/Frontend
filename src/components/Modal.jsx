@@ -1,4 +1,3 @@
-// components/ReusableModal.jsx
 import "../styles/ModalUsers.css";
 
 export const Modal = ({ dialogRef, title, children }) => {
