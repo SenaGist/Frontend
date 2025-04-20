@@ -9,7 +9,7 @@ export const MoreInfo = ({ data, handleModalMore, moreRef }) => {
                 {data.map((item, index) => (
                     <div key={index} className="info-section">
                         <h3>Activo #{index + 1}</h3>
-                        <p><strong>Número de Inventario:</strong> {item.asset?.inventory_number}</p>
+                        <p><strong>Número de Inventario:</strong> {item.asset?.inventoryNumber}</p>
                         <p><strong>Ubicación:</strong> {item.asset?.location}</p>
                         <p><strong>Marca:</strong> {item.asset?.brand}</p>
                         <p><strong>Modelo:</strong> {item.asset?.model}</p>

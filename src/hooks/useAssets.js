@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchAllAssets, fetchMaintenancesPerAsset } from "../services/assetService";
+import { fetchAllAssets, fetchAssetByInventoryNumber, fetchMaintenancesPerAsset } from "../services/assetService";
 
 export function useAssets(apiUrl) {
     const [assets, setAssets] = useState([]);
@@ -12,7 +12,7 @@ export function useAssets(apiUrl) {
 
     const getMaintenancesPerAsset = async (id) => {
         try {
-            const data = await fetchMaintenancesPerAsset(apiUrl, id); // ya es json
+            const data = await fetchMaintenancesPerAsset(apiUrl, id);
             return data;
         } catch (err) {
             console.error("Error fetching maintenances:", err);
@@ -20,6 +20,15 @@ export function useAssets(apiUrl) {
         }
     };
 
-    return { assets, getMaintenancesPerAsset };
+    const getByInventoryNumber = async (inventoryNumber) => {
+        try {
+            const data = await fetchAssetByInventoryNumber(apiUrl, inventoryNumber);
+            return data;
+        } catch (err) {
+            console.error("Error fetching asset: ", err);
+            return [];
+        }
+    }
+    return { assets, getMaintenancesPerAsset, getByInventoryNumber };
 }
 
