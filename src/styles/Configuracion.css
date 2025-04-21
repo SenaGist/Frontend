@@ -1,0 +1,94 @@
+.configuracion-page {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f9fbfc;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .titulo {
+    color: #17803d;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .config-section {
+    background-color: #fff;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #17803d;
+  }
+  
+  .config-section h3 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .config-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.8rem 0;
+    flex-wrap: wrap;
+  }
+  
+  .config-item label {
+    flex: 1 1 60%;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .config-item input,
+  .config-item select {
+    flex: 1 1 35%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+  
+  .config-item input[type="checkbox"] {
+    width: auto;
+    margin-left: 0.5rem;
+  }
+  
+  .btn-principal {
+    background-color: #17803d;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-principal:hover {
+    background-color: #126a33;
+  }
+  
+  .btn-secundario {
+    margin-left: 1rem;
+    background-color: #e6e6e6;
+    color: #333;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-secundario:hover {
+    background-color: #ccc;
+  }
+  
+  .guardar-config {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
