@@ -26,7 +26,7 @@
     background-color: #f2f2f2;
 }
 
-.maintenance-table button{
+.maintenance-table button {
     color: white;
     border: none;
     padding: 6px 12px;
@@ -127,7 +127,7 @@ textarea {
     border-radius: 6px;
     outline: none;
     background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: border-color 0.3s;
 }
 
@@ -164,9 +164,6 @@ button {
     color: #333;
 }
 
-button:hover {
-    background-color: #ddd;
-}
 
 .send-form {
     background-color: #00af00;
@@ -194,6 +191,7 @@ menu {
     background-color: red;
     color: white;
 }
+
 .actions-btn-edit {
     background-color: #007bff;
     color: white;
@@ -202,6 +200,7 @@ menu {
 .actions-btn-edit:hover {
     background-color: #0056b3;
 }
+
 .actions-btn-delete:hover {
     background-color: rgb(201, 11, 11);
 }

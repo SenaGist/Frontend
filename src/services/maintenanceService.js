@@ -14,12 +14,12 @@ export async function fetchPostMaintenance(formData) {
         const jsonData = formData.get('json');
         if (jsonData) {
             const reader = new FileReader();
-            reader.onload = function() {
+            reader.onload = function () {
                 console.log("Datos JSON enviados:", JSON.parse(reader.result));
             };
             reader.readAsText(jsonData);
         }
-        
+
         const response = await fetch(`${API_URL}/maintenances`, {
             method: "POST",
             body: formData
@@ -35,4 +35,9 @@ export async function fetchPostMaintenance(formData) {
         console.error("Error al crear el mantenimiento:", err);
         throw err;
     }
+}
+export async function fetchTypeMaintenances(apiUrl, type) {
+    const response = await fetch(`${apiUrl}/maintenances/asset/type/${type}`);
+    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+    return response.json();
 }

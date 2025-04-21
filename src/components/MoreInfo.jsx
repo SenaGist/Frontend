@@ -8,8 +8,9 @@ export const MoreInfo = ({ data, handleModalMore, moreRef }) => {
                 <h2>Información Detallada</h2>
                 {data.map((item, index) => (
                     <div key={index} className="info-section">
-                        <h3>Activo #{index + 1}</h3>
+                        <h3>Activo #{item.id}</h3>
                         <p><strong>Número de Inventario:</strong> {item.asset?.inventoryNumber}</p>
+                        <p><strong>Técnico:</strong> {item.user.name}</p>
                         <p><strong>Ubicación:</strong> {item.asset?.location}</p>
                         <p><strong>Marca:</strong> {item.asset?.brand}</p>
                         <p><strong>Modelo:</strong> {item.asset?.model}</p>
@@ -25,7 +26,7 @@ export const MoreInfo = ({ data, handleModalMore, moreRef }) => {
                                 <strong>Evidencia 1:</strong>
                                 <img
                                     src={item.image1Base64}
-                                    alt={`Evidencia 1 del activo ${item.asset?.inventory_number}`}
+                                    alt={`Evidencia 1 del activo ${item.asset?.inventoryNumber}`}
                                     className="maintenance-image"
                                 />
                             </div>
@@ -36,7 +37,7 @@ export const MoreInfo = ({ data, handleModalMore, moreRef }) => {
                                 <strong>Evidencia 2:</strong>
                                 <img
                                     src={item.image2Base64}
-                                    alt={`Evidencia 2 del activo ${item.asset?.inventory_number}`}
+                                    alt={`Evidencia 2 del activo ${item.asset?.inventoryNumber}`}
                                     className="maintenance-image"
                                 />
                             </div>
