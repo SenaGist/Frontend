@@ -203,7 +203,10 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
 
                 <menu>
                     <button type="button" onClick={resetFormState}>Cancelar</button>
-                    <button type="submit" className="send-form">Confirmar</button>
+                    {comprobate && (
+                        <button type="submit" className="send-form">Confirmar</button>
+                    )}
+                    
                 </menu>
             </form>
         </dialog>
