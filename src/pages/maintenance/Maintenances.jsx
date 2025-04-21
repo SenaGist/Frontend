@@ -5,6 +5,7 @@ import { MaintenanceForm } from "../../components/MaintenanceForm";
 import { fetchUserMaintenances } from "../../services/maintenanceService";
 import { TableFetching } from "../../components/TableFetching";
 import { MoreInfo } from "../../components/MoreInfo";
+import { MaintenanceModalManager } from "../../components/MaintenanceModalManager";
 
 function Maintenances() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -40,7 +41,8 @@ function Maintenances() {
 
   return (
     <div className="container">
-      <MaintenanceForm handleModal={handleModal} dialogRef={dialogRef} userId={userId} setMaintenances={setMaintenances} />
+      {/* <MaintenanceForm handleModal={handleModal} dialogRef={dialogRef} userId={userId} setMaintenances={setMaintenances} /> */}
+      <MaintenanceModalManager dialogRef={dialogRef} handleModal={handleModal}/>
       <h1 className="title">Mantenimientos Realizados</h1>
       <div className="create-button-wrapper">
         <button className="create-button" onClick={handleModal}>

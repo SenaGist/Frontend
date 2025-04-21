@@ -26,7 +26,7 @@ export function useAssets(apiUrl) {
             return data;
         } catch (err) {
             console.error("Error fetching asset: ", err);
-            return [];
+            return null;
         }
     }
     return { assets, getMaintenancesPerAsset, getByInventoryNumber };
