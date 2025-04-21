@@ -1,47 +1,51 @@
 import { useState } from "react";
 import { fetchPostMaintenance } from "../services/maintenanceService";
 import { MaintenanceTypeAsset } from "../pages/maintenance/MaintenanceTypeAsset";
+import { useAssets } from "../hooks/useAssets";
 
-export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenances }) => {
+export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenances, apiUrl }) => {
     const [type, setType] = useState("");
-    function handleType(e) {
-        const select = e.target;
-        let selectedOption = select.options[select.selectedIndex]
-        setType(selectedOption.value);
-    }
-    function handleSubmit(e) {
+    const [inventoryNumber, setInventoryNumber] = useState(null);
+    const [existingAsset, setExistingAsset] = useState(undefined);
+    const [comprobate, setComprobate] = useState(false);
+
+    const { getByInventoryNumber } = useAssets(apiUrl);
+
+    const handleType = (e) => setType(e.target.value);
+    const handleChange = (e) => setInventoryNumber(e.target.value);
+
+    const handleComprobe = async (e) => {
+        e.preventDefault();
+        const asset = await getByInventoryNumber(inventoryNumber);
+        setExistingAsset(asset);
+        setComprobate(true);
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
-        const data = {};
+        const formObject = Object.fromEntries(formData.entries());
+        const payload = buildFormData(formObject);
 
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
+        try {
+            const newMaintenance = await fetchPostMaintenance(payload);
+            form.reset();
+            handleModal();
+            setComprobate(false);
+            setExistingAsset(undefined);
+            setMaintenances(prev => [...prev, newMaintenance]);
+        } catch (err) {
+            console.error("Error enviando mantenimiento:", err);
+        }
+    };
 
-        const payload = buildPayload(type, data, userId);
-        console.log("Enviando payload:", payload);
+    const buildFormData = (data) => {
+        const asset = buildAssetPayload(data);
+        const assetDetails = (!existingAsset && comprobate) ? buildAssetDetails(type, data) : {};
 
-        fetchPostMaintenance(payload)
-            .then((newMaintenance) => {
-                form.reset();
-                handleModal();
-                console.log(newMaintenance);
-                
-                setMaintenances(((prevState) => [...prevState, newMaintenance]))
-            })
-            .catch(console.error);
-    }
-
-    function buildPayload(type, data, userId) {
-        console.log("Datos del formulario:", data);
         const payload = {
-            asset: {
-                inventoryNumber: data.inventoryNumber,
-                location: data.location,
-                brand: data.brand,
-                model: data.model
-            },
+            asset,
             assetType: data.asset_type,
             id_user: userId,
             start_date: data.start_date,
@@ -50,150 +54,158 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
             description: data.maintenance_description,
             spare_parts: data.spare_parts || "",
             remarks: data.remarks || "",
-            assetDetails: {}
+            assetDetails,
         };
-        const assetDetailsByType = {
+
+        const formData = new FormData();
+        formData.append('maintenanceDTO', new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+        appendImagesToFormData(formData, data);
+
+        return formData;
+    };
+
+    const buildAssetPayload = (data) => {
+        if (existingAsset && comprobate) {
+            const { inventoryNumber, location, brand, model } = existingAsset;
+            return { inventoryNumber, location, brand, model };
+        }
+
+        return {
+            inventoryNumber: data.inventoryNumber,
+            location: data.location,
+            brand: data.brand,
+            model: data.model
+        };
+    };
+
+    const buildAssetDetails = (type, data) => {
+        const baseDetails = {
+            centerId: parseInt(data.centerId, 10),
+            powerKW: parseFloat(data.powerKW),
+        };
+
+        const detailsByType = {
             refrigeration: {
-                centerId: parseInt(data.centerId, 10),
+                ...baseDetails,
                 mainGroup: data.mainGroup,
                 description: data.description,
                 technology: data.technology,
-                powerKW: parseFloat(data.powerKW),
                 refrigerantType: data.refrigerantType,
                 refrigerantCapacityKg: data.refrigerantCapacityKg,
                 energyClassification: data.energyClassification
             },
             lighting: {
-                centerId: parseInt(data.centerId, 10),
+                ...baseDetails,
                 technology: data.technology,
-                powerKW: parseFloat(data.powerKW),
             },
             general: {
-                centerId: parseInt(data.centerId, 10),
+                ...baseDetails,
                 mainGroup: data.mainGroup,
                 description: data.description,
-                powerKW: parseFloat(data.powerKW),
                 dailyUsageHours: parseFloat(data.dailyUsageHours)
             }
         };
-        payload.assetDetails = assetDetailsByType[type] || {};
-        const formData = new FormData();
-        const jsonBlob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-        formData.append('maintenanceDTO', jsonBlob);
 
+        return detailsByType[type] || {};
+    };
+
+    const appendImagesToFormData = (formData, data) => {
         if (data.image_1 instanceof File) {
             formData.append("image_1", data.image_1);
         }
-
         if (data.image_2 instanceof File) {
             formData.append("image_2", data.image_2);
         }
-        for (let [key, value] of formData.entries()) {
-            console.log('FormData Key:', key, 'Value:', value);
-        }
-        return formData;
-    }
+    };
+
+    const resetFormState = () => {
+        handleModal();
+        setComprobate(false);
+        setExistingAsset(undefined);
+    };
 
     return (
         <dialog ref={dialogRef} id="favDialog">
             <form className="form" onSubmit={handleSubmit}>
                 <h2>Crear Mantenimiento</h2>
-                <fieldset>
-                    <legend>Información del Activo</legend>
-                    <div className="field-group">
-                        <label>
-                            Número de Inventario:
-                            <input
-                                type="text"
-                                name="inventoryNumber"
-                            />
-                        </label>
-                        <label>
-                            Ubicación:
-                            <input
-                                type="text"
-                                name="location"
-                            />
-                        </label>
-                        <label>
-                            Marca:
-                            <input type="text" name="brand" />
-                        </label>
-                        <label>
-                            Modelo:
-                            <input type="text" name="model" />
-                        </label>
-                        <label>
-                            Tipo:
-                            <select name="asset_type" onChange={handleType}>
-                                <option value="refrigeration">Equipo Refrigerante</option>
-                                <option value="lighting">Equipo de luz</option>
-                                <option value="general">Equipo general</option>
-                            </select>
-                        </label>
-                    </div>
-                </fieldset>
 
-                <MaintenanceTypeAsset type={type} dialogRef={dialogRef} />
+                {!comprobate && (
+                    <fieldset>
+                        <legend>Información del Activo</legend>
+                        <div className="field-group">
+                            <label>
+                                Número de Inventario:
+                                <input type="text" name="inventoryNumber" required onChange={handleChange} />
+                            </label>
+                            <button onClick={handleComprobe}>Comprobar</button>
+                        </div>
+                    </fieldset>
+                )}
 
-                <fieldset>
-                    <legend>Información del Mantenimiento</legend>
-                    <div className="field-group">
+                {existingAsset === null && (
+                    <>
+                        <fieldset>
+                            <legend>Información del Activo</legend>
+                            <div className="field-group">
+                                <label>
+                                    Número de Inventario:
+                                    <input type="text" name="inventoryNumber" required value={inventoryNumber} onChange={handleChange} />
+                                </label>
+                                <button onClick={handleComprobe}>Comprobar</button>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Detalles del Activo</legend>
+                            <div className="field-group">
+                                <label>Ubicación:<input type="text" name="location" /></label>
+                                <label>Marca:<input type="text" name="brand" /></label>
+                                <label>Modelo:<input type="text" name="model" /></label>
+                                <label>
+                                    Tipo:
+                                    <select name="asset_type" onChange={handleType}>
+                                        <option value="refrigeration">Equipo Refrigerante</option>
+                                        <option value="lighting">Equipo de Luz</option>
+                                        <option value="general">Equipo General</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <MaintenanceTypeAsset type={type} dialogRef={dialogRef} />
+                    </>
+                )}
+
+                {comprobate && (
+                    <fieldset>
+                        <legend>Información del Mantenimiento</legend>
+                        <div className="field-group">
+                            <label>Fecha de Inicio:<input type="datetime-local" name="start_date" /></label>
+                            <label>Fecha de Fin:<input type="datetime-local" name="end_date" /></label>
+                            <label>
+                                Tipo:
+                                <select name="type">
+                                    <option value="Preventivo">Preventivo</option>
+                                    <option value="Correctivo">Correctivo</option>
+                                </select>
+                            </label>
+                            <label>Repuestos:<input type="text" name="spare_parts" /></label>
+                        </div>
+                        <label>Descripción:<textarea name="maintenance_description" /></label>
+                        <label>Observaciones:<textarea name="remarks" /></label>
                         <label>
-                            Fecha de Inicio:
-                            <input
-                                type="datetime-local"
-                                name="start_date"
-                            />
+                            Imágenes:
+                            <input type="file" name="image_1" accept="image/*" />
+                            <input type="file" name="image_2" accept="image/*" />
                         </label>
-                        <label>
-                            Fecha de Fin:
-                            <input
-                                type="datetime-local"
-                                name="end_date"
-                            />
-                        </label>
-                        <label>
-                            Tipo:
-                            <select name="type" >
-                                <option value="Preventivo">Preventivo</option>
-                                <option value="Correctivo">Correctivo</option>
-                            </select>
-                        </label>
-                        <label>
-                            Repuestos:
-                            <input
-                                type="text"
-                                name="spare_parts"
-                            />
-                        </label>
-                    </div>
-                    <label>
-                        Descripción:
-                        <textarea name="maintenance_description">
-                        </textarea>
-                    </label>
-                    <label>
-                        Observaciones:
-                        <textarea name="remarks">
-                        </textarea>
-                    </label>
-                    <label>
-                        Imagenes:
-                        <input type="file" name="image_1" accept="image/*" />
-                        <input type="file" name="image_2" accept="image/*" />
-                    </label>
-                </fieldset>
+                    </fieldset>
+                )}
 
                 <menu>
-                    <button type="button" onClick={handleModal}>
-                        Cancelar
-                    </button>
-                    <button type="submit" className="send-form">
-                        Confirmar
-                    </button>
+                    <button type="button" onClick={resetFormState}>Cancelar</button>
+                    <button type="submit" className="send-form">Confirmar</button>
                 </menu>
             </form>
         </dialog>
-    )
-}
+    );
+};
