@@ -36,8 +36,3 @@ export async function fetchPostMaintenance(formData) {
         throw err;
     }
 }
-export async function fetchTypeMaintenances(apiUrl, type) {
-    const response = await fetch(`${apiUrl}/maintenances/asset/type/${type}`);
-    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-    return response.json();
-}

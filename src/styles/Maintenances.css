@@ -229,6 +229,7 @@ menu {
     }
 
     .create-button-wrapper {
+        flex-direction: column;
         justify-content: center;
         margin-top: 5px;
     }

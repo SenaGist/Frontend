@@ -1,52 +1,75 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchAllMaintenances } from "../../services/maintenanceService";
 import { TableFetching } from "../../components/TableFetching";
 import { MoreInfo } from "../../components/MoreInfo";
 import { useMaintenances } from "../../hooks/useMaintenances";
+import { useUsers } from "../../hooks/useUsers";
 
 function AdminMaintenances() {
   const API_URL = import.meta.env.VITE_API_URL;
   const moreRef = useRef(null);
+
   const [selectedMaintenance, setSelectedMaintenance] = useState(null);
-  const { maintenances, setMaintenances, getMaintenancesByType} = useMaintenances(API_URL);
-  const [filter, setFilter] = useState(null);
-  function handleModalMore(m) {
+  const [techs, setTechs] = useState([]);
+  const [typeFilter, setTypeFilter] = useState(null);
+  const [techFilter, setTechFilter] = useState(null);
+
+  const { maintenances, setMaintenances } = useMaintenances(API_URL);
+  const { getByRole } = useUsers(API_URL);
+
+  const handleModalMore = useCallback((m) => {
     setSelectedMaintenance(m);
-  }
-  function handleChange(e) {
-    setFilter(e.target.value);
+  }, [])
+  const handleTypeChange = useCallback((e) => {
+    setTypeFilter(e.target.value);
+  }, [])
+  function handleTechChange(e) {
+    setTechFilter(e.target.value);
   }
   useEffect(() => {
     if (selectedMaintenance && moreRef.current && !moreRef.current.open) {
       moreRef.current.showModal();
     }
   }, [selectedMaintenance]);
-
+  useEffect(() => {
+    async function fetchTechs() {
+      const techs = await getByRole("tech");
+      setTechs(techs);
+    }
+    fetchTechs();
+  }, [getByRole])
   useEffect(() => {
     const fetchMaintenances = async () => {
       try {
-        if (filter) {
-          const filtered = await getMaintenancesByType(filter);
-          setMaintenances(filtered);
-        } else {
-          const all = await fetchAllMaintenances(API_URL);
-          setMaintenances(all);
+        let data = await fetchAllMaintenances(API_URL);
+        if (typeFilter) {
+          data = data.filter(m => m.type.toLowerCase() === typeFilter.toLowerCase());
         }
+        if (techFilter) {
+          data = data.filter(m => m.user?.id === parseInt(techFilter));
+        }
+        setMaintenances(data);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchMaintenances()
-  }, [API_URL, filter, getMaintenancesByType, setMaintenances]);
+    fetchMaintenances();
+  }, [API_URL, typeFilter, techFilter, setMaintenances]);
 
   return (
     <div className="container">
       <h1 className="title">Todos los Mantenimientos Realizados</h1>
       <div className="create-button-wrapper">
-        <select name="filter" value={filter ?? ""} onChange={handleChange}>
+        <select name="typeFilter" value={typeFilter ?? ""} onChange={handleTypeChange}>
           <option value="" disabled>Filtrar por tipo de mantenimiento</option>
           <option value="preventivo">Preventivo</option>
           <option value="correctivo">Correctivo</option>
+        </select>
+        <select name="techFilter" value={techFilter ?? ""} onChange={handleTechChange}>
+          <option value="" disabled>Filtrar por técnico</option>
+          {techs.map((t) => (
+            <option key={t.id} value={t.id}>{t.name}</option>
+          ))}
         </select>
       </div>
       <TableFetching

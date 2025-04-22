@@ -3,7 +3,8 @@ import {
     fetchUsers,
     fetchPostUser,
     fetchDeleteUser,
-    fetchPutUser
+    fetchPutUser,
+    fetchUsersByRole
 } from '../services/userService';
 
 export function useUsers(apiUrl) {
@@ -14,6 +15,16 @@ export function useUsers(apiUrl) {
             .then(setUsers)
             .catch(console.error);
     }, [apiUrl]);
+
+    const getByRole = async (role) => {
+        try {
+            const data = await fetchUsersByRole(apiUrl, role);
+            return data;
+        } catch (err) {
+            console.error(err);
+            return [];
+        }
+    }
 
     const createUser = async (formData) => {
         const newUser = await fetchPostUser(apiUrl, formData);
@@ -36,5 +47,5 @@ export function useUsers(apiUrl) {
         setUsers(prev => prev.filter(user => user.id !== id));
     };
 
-    return { users, createUser, updateUser, deleteUser, setUsers };
+    return { users, createUser, updateUser, deleteUser, setUsers, getByRole };
 }
