@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
     fetchUsers,
     fetchPostUser,
@@ -16,7 +16,7 @@ export function useUsers(apiUrl) {
             .catch(console.error);
     }, [apiUrl]);
 
-    const getByRole = async (role) => {
+    const getByRole = useCallback(async (role) => {
         try {
             const data = await fetchUsersByRole(apiUrl, role);
             return data;
@@ -24,7 +24,7 @@ export function useUsers(apiUrl) {
             console.error(err);
             return [];
         }
-    }
+    }, [apiUrl])
 
     const createUser = async (formData) => {
         const newUser = await fetchPostUser(apiUrl, formData);

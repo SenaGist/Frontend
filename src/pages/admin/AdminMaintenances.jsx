@@ -4,8 +4,10 @@ import { TableFetching } from "../../components/TableFetching";
 import { MoreInfo } from "../../components/MoreInfo";
 import { useMaintenances } from "../../hooks/useMaintenances";
 import { useUsers } from "../../hooks/useUsers";
+import * as XLSX from 'xlsx';
 
 function AdminMaintenances() {
+  2
   const API_URL = import.meta.env.VITE_API_URL;
   const moreRef = useRef(null);
 
@@ -23,6 +25,24 @@ function AdminMaintenances() {
   const handleTypeChange = useCallback((e) => {
     setTypeFilter(e.target.value);
   }, [])
+
+  function exportToExcel() {
+    const dataToExport = maintenances.map(m => ({
+      ID: m.id,
+      Fecha: new Date(m.start_date).toLocaleDateString(),
+      Equipamento: m.asset.inventoryNumber,
+      Tipo: m.type,
+      Descripción: m.description,
+      Técnico: m.user?.name ?? 'No asignado',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Mantenimientos");
+
+    XLSX.writeFile(workbook, "mantenimientos.xlsx");
+  }
+
   function handleTechChange(e) {
     setTechFilter(e.target.value);
   }
@@ -71,6 +91,9 @@ function AdminMaintenances() {
             <option key={t.id} value={t.id}>{t.name}</option>
           ))}
         </select>
+        <button onClick={exportToExcel} className="btn-export">
+          Exportar a Excel
+        </button>
       </div>
       <TableFetching
         headers={["ID", "Fecha", "Tipo", "Descripción", "Acciones"]}

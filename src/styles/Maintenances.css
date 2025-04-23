@@ -210,6 +210,20 @@ menu {
     color: white;
 }
 
+.btn-export {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-export:hover {
+    background-color: #45a049;
+}
+
+
 @media (max-width: 768px) {
     #favDialog {
         width: 100%;
