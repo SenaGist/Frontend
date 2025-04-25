@@ -4,23 +4,25 @@ import { Modal } from "../../components/Modal";
 import "../../styles/Maintenances.css";
 import { useUsers } from "../../hooks/useUsers";
 import { UserForm } from "../../components/UserForm";
-
+import { Alert } from "../../components/alert/Alert";
+import { useAlert } from "../../context/useAlert";
 function Users() {
   const API_URL = import.meta.env.VITE_API_URL;
   const { users, createUser, updateUser, deleteUser } = useUsers(API_URL);
   const [userDeletedId, setUserDeletedId] = useState(null);
+  const  {alert, showAlert, closeAlert} =  useAlert();
   const [newUserData, setnewUserData] = useState({
     name: "",
     email: "",
     password: "",
-    role: ""
+    role: "",
   });
   const [editUserData, seteditUserData] = useState({
     id: 0,
     name: "",
     email: "",
     password: "",
-    role: ""
+    role: "",
   });
 
   const createDialogRef = useRef(null);
@@ -35,7 +37,7 @@ function Users() {
   const handleChange = (e, isEdit = false) => {
     const { name, value } = e.target;
     const updater = isEdit ? seteditUserData : setnewUserData;
-    updater(prev => ({ ...prev, [name]: value }));
+    updater((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -44,8 +46,10 @@ function Users() {
       await createUser(newUserData);
       setnewUserData({ name: "", email: "", password: "", role: "" });
       handleModal(createDialogRef);
+      showAlert("success", "Usuario Creado");
     } catch (err) {
       console.error(err);
+      showAlert("error", "Error al crear usuario");
     }
   };
 
@@ -55,8 +59,10 @@ function Users() {
       await deleteUser(userDeletedId);
       setUserDeletedId(null);
       handleModal(deleteDialogRef);
+      showAlert("success", "Usuario eliminado");
     } catch (err) {
       console.error(err);
+      showAlert("error", "Error al eliminar usuario");
     }
   };
 
@@ -65,13 +71,27 @@ function Users() {
     try {
       await updateUser(editUserData);
       handleModal(editDialogRef);
+      showAlert("success", "Usuario Editado")
     } catch (err) {
       console.error(err);
+      showAlert("error", "Error al editar el usuario")
     }
   };
+  
   return (
     <div className="container">
-      <Modal dialogRef={createDialogRef} handleModal={handleModal} title="Registrar Nuevo Usuario">
+      {alert && (
+        <Alert
+          type={alert.type}
+          message={alert.text}
+          onClose={closeAlert}
+        />
+      )}
+      <Modal
+        dialogRef={createDialogRef}
+        handleModal={handleModal}
+        title="Registrar Nuevo Usuario"
+      >
         <UserForm
           formData={newUserData}
           onChange={(e) => handleChange(e, false)}
@@ -80,14 +100,29 @@ function Users() {
         />
       </Modal>
 
-      <Modal dialogRef={deleteDialogRef} handleModal={handleModal} title="¿Está seguro de querer eliminar este usuario?">
+      <Modal
+        dialogRef={deleteDialogRef}
+        handleModal={handleModal}
+        title="¿Está seguro de querer eliminar este usuario?"
+      >
         <div className="modal-buttons">
-          <button className="guardar" onClick={handleDelete}>Sí, eliminar</button>
-          <button className="cancelar" onClick={() => handleModal(deleteDialogRef)}>Cancelar</button>
+          <button className="guardar" onClick={handleDelete}>
+            Sí, eliminar
+          </button>
+          <button
+            className="cancelar"
+            onClick={() => handleModal(deleteDialogRef)}
+          >
+            Cancelar
+          </button>
         </div>
       </Modal>
 
-      <Modal dialogRef={editDialogRef} handleModal={handleModal} title="Editar usuario">
+      <Modal
+        dialogRef={editDialogRef}
+        handleModal={handleModal}
+        title="Editar usuario"
+      >
         <UserForm
           formData={editUserData}
           onChange={(e) => handleChange(e, true)}
@@ -97,9 +132,12 @@ function Users() {
       </Modal>
 
       <div className="create-button-wrapper">
-        <button className="create-button" 
-        onClick={() => handleModal(createDialogRef)}
-        >Crear Usuarios</button>
+        <button
+          className="create-button"
+          onClick={() => handleModal(createDialogRef)}
+        >
+          Crear Usuarios
+        </button>
       </div>
 
       <TableFetching

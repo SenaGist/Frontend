@@ -4,7 +4,8 @@ import {
     fetchPostUser,
     fetchDeleteUser,
     fetchPutUser,
-    fetchUsersByRole
+    fetchUsersByRole,
+    fetchUserById
 } from '../services/userService';
 
 export function useUsers(apiUrl) {
@@ -16,6 +17,15 @@ export function useUsers(apiUrl) {
             .catch(console.error);
     }, [apiUrl]);
 
+    const getById = useCallback(async (id) => {
+        try {
+            const data = await fetchUserById(apiUrl, id);
+            return data;
+        } catch (err) {
+            console.error(err);
+            return [];
+        }
+    }, [apiUrl])
     const getByRole = useCallback(async (role) => {
         try {
             const data = await fetchUsersByRole(apiUrl, role);
@@ -47,5 +57,5 @@ export function useUsers(apiUrl) {
         setUsers(prev => prev.filter(user => user.id !== id));
     };
 
-    return { users, createUser, updateUser, deleteUser, setUsers, getByRole };
+    return { users, createUser, updateUser, deleteUser, setUsers, getByRole, getById };
 }

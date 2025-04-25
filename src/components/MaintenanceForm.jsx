@@ -26,8 +26,41 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
         const form = e.target;
         const formData = new FormData(form);
         const formObject = Object.fromEntries(formData.entries());
+    
+        const requiredFields = ["start_date", "type", "maintenance_description"];
+        const missing = requiredFields.filter(field => !formObject[field]);
+    
+        if (!existingAsset) {
+            const assetFields = ["inventoryNumber", "location", "brand", "model", "asset_type"];
+            assetFields.forEach(field => {
+                if (!formObject[field]) missing.push(field);
+            });
+    
+            if (type === "refrigeration") {
+                const extraFields = ["centerId", "powerKW", "mainGroup", "description", "technology", "refrigerantType", "refrigerantCapacityKg", "energyClassification"];
+                extraFields.forEach(field => {
+                    if (!formObject[field]) missing.push(field);
+                });
+            } else if (type === "lighting") {
+                const extraFields = ["centerId", "powerKW", "technology"];
+                extraFields.forEach(field => {
+                    if (!formObject[field]) missing.push(field);
+                });
+            } else if (type === "general") {
+                const extraFields = ["centerId", "powerKW", "mainGroup", "description", "dailyUsageHours"];
+                extraFields.forEach(field => {
+                    if (!formObject[field]) missing.push(field);
+                });
+            }
+        }
+    
+        if (missing.length > 0) {
+            alert("Faltan campos obligatorios: " + missing.join(", "));
+            return;
+        }
+    
         const payload = buildFormData(formObject);
-
+    
         try {
             const newMaintenance = await fetchPostMaintenance(payload);
             form.reset();
@@ -39,6 +72,7 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
             console.error("Error enviando mantenimiento:", err);
         }
     };
+    
 
     const buildFormData = (data) => {
         const asset = buildAssetPayload(data);

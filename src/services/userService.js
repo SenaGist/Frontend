@@ -3,6 +3,11 @@ export async function fetchUsers(apiUrl) {
     if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
     return response.json();
 }
+export async function fetchUserById(apiUrl, userId) {
+    const response = await fetch(`${apiUrl}/users/${userId}`);
+    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+    return response.json();
+}
 export async function fetchUsersByRole(apiUrl, role) {
     const response = await fetch(`${apiUrl}/users/role/${role}`);
     if (!response.ok) throw new Error(`HTTP error: ${response.status}`);

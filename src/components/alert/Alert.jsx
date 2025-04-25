@@ -1,7 +1,7 @@
 import React from 'react';
-import '../styles/Alert.css';
+import '../../styles/Alert.css';
 
-const Alert = ({ type, message, onClose }) => {
+export const Alert = ({ type, message, onClose }) => {
   if (!message) return null;
 
   return (

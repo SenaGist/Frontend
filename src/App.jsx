@@ -10,12 +10,13 @@ import Maintenances from './pages/maintenance/Maintenances.jsx'
 import AdminMaintenances from './pages/admin/AdminMaintenances.jsx'
 import { Assets } from './pages/admin/Assets.jsx'
 import Configuracion from './pages/Configuracion.jsx';
+import { AlertProvider } from './context/AlertProvider.jsx'
 
 
 function ProtectedRoute() {
   const { token } = useAuth();
   return token ? <Outlet /> : <Navigate to="/login" replace />;
-  
+
 }
 
 function PublicRoute() {
@@ -26,25 +27,26 @@ function PublicRoute() {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route element={<PublicRoute />}>
-            <Route path="/login" element={<Login />} />
-          </Route>
-
-          <Route element={<ProtectedRoute />}>
-            <Route element={<DashboardLayout />}>
-              <Route path="/home" element={<Home />} />
-              <Route path="/admin/usuarios" element={<Users />} />
-              <Route path="/mantenimientos" element={<Maintenances />} />
-              <Route path='/admin/mantenimientos' element={<AdminMaintenances/>}/>
-              <Route path='/admin/equipamentos' element={<Assets/>}/>
-              <Route path='/configuracion' element={<Configuracion />} />
-              <Route path="*" element={<Navigate to="/home" />} />
+      <AlertProvider>
+        <Router>
+          <Routes>
+            <Route element={<PublicRoute />}>
+              <Route path="/login" element={<Login />} />
             </Route>
-          </Route>
-        </Routes>
-      </Router>
+            <Route element={<ProtectedRoute />}>
+              <Route element={<DashboardLayout />}>
+                <Route path="/home" element={<Home />} />
+                <Route path="/admin/usuarios" element={<Users />} />
+                <Route path="/mantenimientos" element={<Maintenances />} />
+                <Route path='/admin/mantenimientos' element={<AdminMaintenances />} />
+                <Route path='/admin/equipamentos' element={<Assets />} />
+                <Route path='/configuracion' element={<Configuracion />} />
+                <Route path="*" element={<Navigate to="/home" />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Router>
+      </AlertProvider>
     </AuthProvider>
   )
 }
