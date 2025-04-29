@@ -9,8 +9,9 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
     const [type, setType] = useState("");
     const [inventoryNumber, setInventoryNumber] = useState(null);
     const [existingAsset, setExistingAsset] = useState(undefined);
+    const [isLoading, setIsLoading] = useState(false);
     const [comprobate, setComprobate] = useState(false);
-    const  {alert, showAlert, closeAlert} =  useAlert();
+    const {alert, showAlert, closeAlert} =  useAlert();
 
     const { getByInventoryNumber } = useAssets(apiUrl);
 
@@ -65,6 +66,7 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
         const payload = buildFormData(formObject);
     
         try {
+            setIsLoading(true);
             const newMaintenance = await fetchPostMaintenance(payload);
             form.reset();
             handleModal();
@@ -74,6 +76,8 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
             setMaintenances(prev => [...prev, newMaintenance]);
         } catch (err) {
             console.error("Error enviando mantenimiento:", err);
+        } finally{
+            setIsLoading(false);
         }
     };
     
@@ -245,12 +249,12 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
                         </label>
                     </fieldset>
                 )}
-
                 <menu>
                     <button type="button" onClick={resetFormState}>Cancelar</button>
                     {comprobate && (
-                        <button type="submit" className="send-form">Confirmar</button>
-                    )}
+                        <button type="submit" className="send-form" disabled={isLoading}>
+                            {isLoading ? "Enviando..." : "Confirmar"}
+                        </button>                    )}
                     
                 </menu>
             </form>

@@ -3,10 +3,11 @@ import { MdDevices } from 'react-icons/md';
 import { GrVmMaintenance } from "react-icons/gr";
 import { useAuth } from '../../context/useAuth';
 import { Link, NavLink } from 'react-router-dom';
+import { useSidebar } from '../../context/useSidebar';
 
 export const SidebarNavItem = () => {
     const { role } = useAuth();
-
+    const { toggleSidebar } = useSidebar();
     const navItemsAdmin = [
         { icon: FaHome, label: 'Inicio', path: '/' },
         { icon: FaUsers, label: 'Usuarios', path: '/admin/usuarios' },
@@ -28,7 +29,7 @@ export const SidebarNavItem = () => {
             {navItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                    <Link to={item.path} key={item.path}>
+                    <Link to={item.path} key={item.path} onClick={toggleSidebar}>
                         <li key={item.path}><Icon />
                             {item.label}
                         </li>
