@@ -63,10 +63,10 @@ function Login() {
                     </button>
                 </div>
                 <button className="login-button" type="submit">Iniciar Sesión</button>
-                <div className="login-links">
+                {/* <div className="login-links">
                     <a href="#">¿No tienes cuenta?</a>
                     <a href="#">¿Olvidó su contraseña?</a>
-                </div>
+                </div> */}
             </form>
         </div>
     )

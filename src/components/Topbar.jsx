@@ -7,7 +7,6 @@ function Topbar() {
   const { toggleSidebar } = useSidebar();
 
   const titles = {
-    "/home": "Panel Principal",
     "/usuarios": "Gestión de Usuarios",
     "/admin/usuarios": "Gestión de Usuarios",
     "/mantenimientos": "Mantenimentos",

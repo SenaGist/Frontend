@@ -13,11 +13,20 @@ import { AlertProvider } from './context/AlertProvider.jsx'
 
 
 function ProtectedRoute() {
-  const { token } = useAuth();
+  const { token } = useAuth();  
   return token ? <Outlet /> : <Navigate to="/login" replace />;
 
 }
-
+function RedirectedByRole() {
+  const {role} = useAuth();
+  if (role == "admin") {
+    return <Navigate to="/admin/usuarios" replace />;
+  } else if (role == "tech") {
+    return <Navigate to="/mantenimientos" replace />;
+  } else {
+    return <Navigate to="/login" replace />;
+  }
+}
 function PublicRoute() {
   const { token } = useAuth();
   return token ? <Navigate to="/home" replace /> : <Outlet />;
@@ -39,7 +48,7 @@ function App() {
                 <Route path='/admin/mantenimientos' element={<AdminMaintenances />} />
                 <Route path='/admin/equipamentos' element={<Assets />} />
                 <Route path='/configuracion' element={<Configuracion />} />
-                <Route path="*" element={<Navigate to="/admin/usuarios" />} />
+                <Route path="*" element={<RedirectedByRole/>} />
               </Route>
             </Route>
           </Routes>
