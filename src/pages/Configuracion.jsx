@@ -22,7 +22,7 @@ const Configuracion = () => {
         </div>
       </div>
 
-      <div className="config-section">
+      {/* <div className="config-section">
         <h3>Notificaciones</h3>
         <div className="config-item">
           <label htmlFor="notificarMantenimiento">
@@ -38,9 +38,9 @@ const Configuracion = () => {
             id="correoRemitente"
           />
         </div>
-      </div>
+      </div> */}
 
-      <div className="config-section">
+      {/* <div className="config-section">
         <h3>Roles y Permisos</h3>
         <div className="config-item">
           <select>
@@ -50,7 +50,7 @@ const Configuracion = () => {
           </select>
           <button className="btn-secundario">Editar permisos</button>
         </div>
-      </div>
+      </div> */}
 
       <div className="guardar-config">
         <button className="btn-principal">Guardar Cambios</button>
