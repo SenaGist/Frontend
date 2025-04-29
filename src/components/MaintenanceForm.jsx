@@ -2,12 +2,15 @@ import { useState } from "react";
 import { fetchPostMaintenance } from "../services/maintenanceService";
 import { MaintenanceTypeAsset } from "../pages/maintenance/MaintenanceTypeAsset";
 import { useAssets } from "../hooks/useAssets";
+import { useAlert } from "../context/useAlert";
+import Alert from "./alert/Alert";
 
 export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenances, apiUrl }) => {
     const [type, setType] = useState("");
     const [inventoryNumber, setInventoryNumber] = useState(null);
     const [existingAsset, setExistingAsset] = useState(undefined);
     const [comprobate, setComprobate] = useState(false);
+    const  {alert, showAlert, closeAlert} =  useAlert();
 
     const { getByInventoryNumber } = useAssets(apiUrl);
 
@@ -55,7 +58,7 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
         }
     
         if (missing.length > 0) {
-            alert("Faltan campos obligatorios: " + missing.join(", "));
+            showAlert("error", "Faltan campos obligatorios: " + missing.join(", "));
             return;
         }
     
@@ -65,6 +68,7 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
             const newMaintenance = await fetchPostMaintenance(payload);
             form.reset();
             handleModal();
+            showAlert("success", "Mantenimiento registrado");
             setComprobate(false);
             setExistingAsset(undefined);
             setMaintenances(prev => [...prev, newMaintenance]);
@@ -160,6 +164,13 @@ export const MaintenanceForm = ({ handleModal, dialogRef, userId, setMaintenance
 
     return (
         <dialog ref={dialogRef} id="favDialog">
+            {alert && (
+                    <Alert
+                      type={alert.type}
+                      message={alert.text}
+                      onClose={closeAlert}
+                    />
+                  )}
             <form className="form" onSubmit={handleSubmit}>
                 <h2>Crear Mantenimiento</h2>
 

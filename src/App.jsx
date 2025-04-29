@@ -1,7 +1,6 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import Login from './pages/Login.jsx'
-import Home from './pages/Home.jsx'
 import Users from './pages/admin/Users.jsx'
 import DashboardLayout from './components/DashboardLayout.jsx'
 import { useAuth } from './context/useAuth.js'
@@ -35,13 +34,12 @@ function App() {
             </Route>
             <Route element={<ProtectedRoute />}>
               <Route element={<DashboardLayout />}>
-                <Route path="/home" element={<Home />} />
                 <Route path="/admin/usuarios" element={<Users />} />
                 <Route path="/mantenimientos" element={<Maintenances />} />
                 <Route path='/admin/mantenimientos' element={<AdminMaintenances />} />
                 <Route path='/admin/equipamentos' element={<Assets />} />
                 <Route path='/configuracion' element={<Configuracion />} />
-                <Route path="*" element={<Navigate to="/home" />} />
+                <Route path="*" element={<Navigate to="/admin/usuarios" />} />
               </Route>
             </Route>
           </Routes>
