@@ -1,0 +1,328 @@
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.maintenance-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.maintenance-table th,
+.maintenance-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.maintenance-table th {
+    background-color: #f2f2f2;
+}
+
+.maintenance-table button {
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
+
+.create-button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.create-button {
+    display: flex;
+    border-radius: 5px;
+    border: 1px solid #00AF00;
+    background-color: #00AF00;
+    color: white;
+    font-weight: 600;
+    width: 150px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-button:hover {
+    background-color: #04cf04;
+    transition: .3s all;
+    cursor: pointer;
+}
+
+#favDialog {
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+    border: none;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.favDialog::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    background-color: #fafafa;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+legend {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0 8px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.95rem;
+    color: #333;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+input[type= "number"],
+input[type="file"],
+select,
+textarea {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #00af00;
+    box-shadow: 0 0 0 2px rgba(0, 175, 0, 0.2);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+fieldset .field-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+}
+
+button,
+.send-form {
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.send-form {
+    background-color: #00af00;
+    color: white;
+}
+
+.send-form:hover {
+    background-color: #04cf04;
+}
+
+menu {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding-top: 10px;
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 0.5rem;
+}
+
+.actions-btn-delete {
+    background-color: red;
+    color: white;
+}
+
+.actions-btn-edit {
+    background-color: #007bff;
+    color: white;
+}
+
+.actions-btn-edit:hover {
+    background-color: #0056b3;
+}
+
+.actions-btn-delete:hover {
+    background-color: rgb(201, 11, 11);
+}
+
+.btn-more {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-export {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-export:hover {
+    background-color: #45a049;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    #favDialog {
+        width: 100%;
+        max-width: 100%;
+        height: 90vh;
+        max-height: 90vh;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 5vh auto;
+        box-sizing: border-box;
+        overflow-y: auto;
+    }
+
+    .form {
+        padding: 0;
+        margin: 0;
+        gap: 1rem;
+    }
+
+    fieldset {
+        padding: 12px;
+        margin-bottom: 10px;
+    }
+
+    fieldset .field-group {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    input[type="text"],
+    input[type="datetime-local"],
+    input[type="file"],
+    select,
+    textarea {
+        font-size: 16px; 
+        padding: 10px;
+    }
+
+    menu {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 8px;
+        padding: 10px 0;
+    }
+
+    button, 
+    .send-form {
+        padding: 12px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .create-button-wrapper {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 5px;
+    }
+    input[type="file"] {
+        width: 100%;
+        padding: 8px 0;
+    }
+    
+    input[type="file"]::file-selector-button {
+        padding: 8px;
+        margin-right: 10px;
+    }
+    input[type="datetime-local"] {
+        padding-right: 5px;
+    }
+    body.modal-open {
+        overflow: hidden;
+    }
+}
+@media (max-width: 380px) {
+    #favDialog {
+        padding: 10px;
+    }
+    
+    fieldset {
+        padding: 10px;
+    }
+    
+    h2 {
+        font-size: 1.2rem;
+    }
+}
