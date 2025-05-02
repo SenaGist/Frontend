@@ -124,10 +124,7 @@ label {
 
 input[type="text"],
 input[type="datetime-local"],
-<<<<<<< HEAD
 input[type= "number"],
-=======
->>>>>>> 549b8a97fdfe4d4dbd6f9e5950f6453eeca9b268
 input[type="file"],
 select,
 textarea {
