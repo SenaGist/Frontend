@@ -60,7 +60,9 @@ export const Assets = () => {
                                 {maintenances.map((m) => (
                                     <li key={m.id} className="mantenimiento-item">
                                         <p className="mantenimiento-fecha">{new Date(m.start_date).toLocaleString()}</p>
-                                        <p className="mantenimiento-descripcion">{m.description}</p>
+                                        <p className="mantenimiento-descripcion">Técnico: {m.user.name}</p>
+                                        <p className="mantenimiento-descripcion">Tipo: {m.type}</p>
+                                        <p className="mantenimiento-descripcion">Descripción: {m.description}</p>
                                     </li>
                                 ))}
                             </ul>
