@@ -8,7 +8,6 @@ import { AuthProvider } from './context/AuthProvider.jsx'
 import Maintenances from './pages/maintenance/Maintenances.jsx'
 import AdminMaintenances from './pages/admin/AdminMaintenances.jsx'
 import { Assets } from './pages/admin/Assets.jsx'
-import Configuracion from './pages/Configuracion.jsx';
 import { AlertProvider } from './context/AlertProvider.jsx'
 
 
@@ -47,7 +46,6 @@ function App() {
                 <Route path="/mantenimientos" element={<Maintenances />} />
                 <Route path='/admin/mantenimientos' element={<AdminMaintenances />} />
                 <Route path='/admin/equipamentos' element={<Assets />} />
-                <Route path='/configuracion' element={<Configuracion />} />
                 <Route path="*" element={<RedirectedByRole/>} />
               </Route>
             </Route>

@@ -4,7 +4,8 @@ import { TableFetching } from "../../components/TableFetching";
 import { MoreInfo } from "../../components/MoreInfo";
 import { useMaintenances } from "../../hooks/useMaintenances";
 import { useUsers } from "../../hooks/useUsers";
-import * as XLSX from 'xlsx';
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
 
 function AdminMaintenances() {
   2
@@ -26,22 +27,68 @@ function AdminMaintenances() {
     setTypeFilter(e.target.value);
   }, [])
 
-  function exportToExcel() {
-    const dataToExport = maintenances.map(m => ({
-      ID: m.id,
-      Fecha: new Date(m.start_date).toLocaleDateString(),
-      Equipamento: m.asset.inventoryNumber,
-      Tipo: m.type,
-      Descripción: m.description,
-      Técnico: m.user?.name ?? 'No asignado',
-    }));
 
-    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Mantenimientos");
 
-    XLSX.writeFile(workbook, "mantenimientos.xlsx");
-  }
+async function exportToExcel() {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Mantenimientos");
+
+    worksheet.columns = [
+        { header: "ID", key: "id", width: 10 },
+        { header: "Fecha", key: "fecha", width: 15 },
+        { header: "Equipamento", key: "equipamento", width: 25 },
+        { header: "Tipo", key: "tipo", width: 20 },
+        { header: "Descripción", key: "descripcion", width: 40 },
+        { header: "Técnico", key: "tecnico", width: 25 },
+    ];
+
+    maintenances.forEach(m => {
+        worksheet.addRow({
+            id: m.id,
+            fecha: new Date(m.start_date).toLocaleDateString(),
+            equipamento: m.asset?.inventoryNumber ?? 'Desconocido',
+            tipo: m.type ?? '',
+            descripcion: m.description ?? '',
+            tecnico: m.user?.name ?? 'No asignado',
+        });
+    });
+
+    worksheet.getRow(1).eachCell((cell) => {
+        cell.font = { bold: true };
+        cell.alignment = { vertical: "middle", horizontal: "center", wrapText: true };
+        cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFCCE5FF' } 
+        };
+        cell.border = {
+            top: { style: "thin" },
+            left: { style: "thin" },
+            bottom: { style: "thin" },
+            right: { style: "thin" }
+        };
+    });
+
+    worksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
+        if (rowNumber === 1) return;
+        row.eachCell((cell) => {
+            cell.alignment = { vertical: "middle", wrapText: true };
+            cell.border = {
+                top: { style: "thin" },
+                left: { style: "thin" },
+                bottom: { style: "thin" },
+                right: { style: "thin" }
+            };
+        });
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    saveAs(blob, "mantenimientos.xlsx");
+}
+
 
   function handleTechChange(e) {
     setTechFilter(e.target.value);

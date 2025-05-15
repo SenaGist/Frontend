@@ -2,7 +2,8 @@ import { useRef, useState } from "react";
 import { TableFetching } from "../../components/TableFetching";
 import { useAssets } from "../../hooks/useAssets";
 import { Modal } from "../../components/Modal";
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
 
 export const Assets = () => {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -16,35 +17,89 @@ export const Assets = () => {
         ref.current.open ? ref.current.close() : ref.current.showModal();
     };
 
-    async function exportToExcel() {
-        const detailedAssets = await Promise.all(
-            assets.map((a) => getInfoAsset(a.id))
-        );
 
-        const dataToExport = detailedAssets.map((asset) => ({
-            ID: asset.id,
-            Placa: asset.inventoryNumber,
-            Equipamento: asset.inventoryNumber,
-            Ubicación: asset.location,
-            Marca: asset.brand,
-            Modelo: asset.model,
-            Centro: asset.center?.name ?? "No aplica",
-            GrupoPrincipal: asset.mainGroup ?? 'No aplica',
-            Descripción: asset.description ?? 'No aplica',
-            Tecnología: asset.technology ?? 'No aplica',
-            PotenciaKW: asset.powerKW ?? 'No aplica',
-            TipoRefrigerante: asset.refrigerantType ?? 'No aplica',
-            CapacidadRefrigeranteKg: asset.refrigerantCapacityKg ?? 'No aplica',
-            ClasificaciónEnergética: asset.energyClassification ?? 'No aplica',
-            FechaCreación: asset.created_at?.split('T')[0] ?? ''
-        }));
+async function exportToExcel() {
+    const detailedAssets = await Promise.all(
+        assets.map((a) => getInfoAsset(a.id))
+    );
 
-        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Equipos");
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Equipos");
 
-        XLSX.writeFile(workbook, "equipos.xlsx");
-    }
+    const headers = [
+        { header: "ID", key: "id", width: 10 },
+        { header: "Placa", key: "inventoryNumber", width: 25 },
+        { header: "Ubicación", key: "location", width: 25 },
+        { header: "Marca", key: "brand", width: 20 },
+        { header: "Modelo", key: "model", width: 20 },
+        { header: "Centro", key: "centerName", width: 35 },
+        { header: "Grupo Principal", key: "mainGroup", width: 25 },
+        { header: "Descripción", key: "description", width: 40 },
+        { header: "Tecnología", key: "technology", width: 20 },
+        { header: "Potencia (KW)", key: "powerKW", width: 15 },
+        { header: "Tipo Refrigerante", key: "refrigerantType", width: 20 },
+        { header: "Capacidad Refrigerante (Kg)", key: "refrigerantCapacityKg", width: 25 },
+        { header: "Clasificación Energética", key: "energyClassification", width: 25 },
+        { header: "Fecha de Creación", key: "created_at", width: 20 }
+    ];
+
+    worksheet.columns = headers;
+
+    detailedAssets.forEach((asset) => {
+        worksheet.addRow({
+            id: asset.id,
+            inventoryNumber: asset.inventoryNumber,
+            location: asset.location,
+            brand: asset.brand,
+            model: asset.model,
+            centerName: asset.center?.name ?? 'No aplica',
+            mainGroup: asset.mainGroup ?? 'No aplica',
+            description: asset.description ?? 'No aplica',
+            technology: asset.technology ?? 'No aplica',
+            powerKW: asset.powerKW ?? 'No aplica',
+            refrigerantType: asset.refrigerantType ?? 'No aplica',
+            refrigerantCapacityKg: asset.refrigerantCapacityKg ?? 'No aplica',
+            energyClassification: asset.energyClassification ?? 'No aplica',
+            created_at: asset.created_at?.split("T")[0] ?? 'No aplica',
+        });
+    });
+
+    worksheet.getRow(1).eachCell((cell) => {
+        cell.font = { bold: true };
+        cell.alignment = { vertical: "middle", horizontal: "center", wrapText: true };
+        cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFDDEEFF' }
+        };
+        cell.border = {
+            top: { style: "thin" },
+            left: { style: "thin" },
+            bottom: { style: "thin" },
+            right: { style: "thin" }
+        };
+    });
+
+    worksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
+        if (rowNumber === 1) return;
+        row.eachCell((cell) => {
+            cell.alignment = { vertical: "middle", wrapText: true };
+            cell.border = {
+                top: { style: "thin" },
+                left: { style: "thin" },
+                bottom: { style: "thin" },
+                right: { style: "thin" }
+            };
+        });
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    saveAs(blob, "equipos.xlsx");
+}
+
 
     async function handleModalMaintenances(a) {
         setSelectedAsset(a);
