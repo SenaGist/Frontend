@@ -12,12 +12,10 @@ export const SidebarNavItem = () => {
         { icon: FaUsers, label: 'Usuarios', path: '/admin/usuarios' },
         { icon: GrVmMaintenance, label: 'Mantenimientos', path: '/admin/mantenimientos' },
         { icon: MdDevices, label: 'Equipamentos', path: '/admin/equipamentos' },
-        { icon: FaCogs, label: 'Configuración', path: '/configuracion' },
     ];
 
     const navItemsTech = [
         { icon: GrVmMaintenance, label: 'Mantenimientos', path: '/mantenimientos' },
-        { icon: FaCogs, label: 'Configuración', path: '/configuracion' },
     ];
 
     const navItems = role == 'admin' ? navItemsAdmin : navItemsTech;

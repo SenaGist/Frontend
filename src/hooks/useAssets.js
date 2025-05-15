@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchAllAssets, fetchAssetByInventoryNumber, fetchMaintenancesPerAsset } from "../services/assetService";
+import { fetchAllAssets, fetchAssetByInventoryNumber, fetchAssetTypeInfo, fetchMaintenancesPerAsset } from "../services/assetService";
 
 export function useAssets(apiUrl) {
     const [assets, setAssets] = useState([]);
@@ -29,6 +29,15 @@ export function useAssets(apiUrl) {
             return null;
         }
     }
-    return { assets, getMaintenancesPerAsset, getByInventoryNumber };
+    const getInfoAsset = async (id) => {
+        try {
+            const data = await fetchAssetTypeInfo(apiUrl, id);
+            return data;
+        } catch (err) {
+            console.error("Error fetching asset: ", err);
+            return null;
+        }
+    }
+    return { assets, getMaintenancesPerAsset, getByInventoryNumber, getInfoAsset };
 }
 

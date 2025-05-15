@@ -7,7 +7,6 @@ export const SidebarFooter = () => {
     return (
         <>
             <div className="profile">
-                <span>Perfil del Usuario</span>
                 <button onClick={handleLogout}>Cerrar sesión</button>
             </div>
         </>

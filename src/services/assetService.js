@@ -15,3 +15,10 @@ export const fetchAssetByInventoryNumber = async (apiUrl, inventoryNumber) => {
     }
     return await res.json();
 };
+export const fetchAssetTypeInfo = async(apiUrl, id) => {
+    const res = await fetch(`${apiUrl}/assets/type/${id}`);
+    if (!res.ok) {
+        throw new Error(`Error al buscar activo: ${res.status}`);
+    }
+    return await res.json();
+}
